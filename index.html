@@ -12,12 +12,16 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: auto;
+            min-height: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            height: 100vh;
             color: #333;
             background: #000;
+            /* Only hide overflow when modal is active */
         }
 
         #webgl-canvas {
@@ -31,7 +35,7 @@
 
         .overlay {
             position: relative;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -39,6 +43,8 @@
             text-align: center;
             padding: 20px;
             z-index: 10;
+            padding-top: 60px;
+            padding-bottom: 60px;
         }
 
         .content {
@@ -53,6 +59,7 @@
             animation: fadeIn 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
             position: relative;
             overflow: hidden;
+            margin: 20px 0;
         }
 
         .content::before {
@@ -205,14 +212,15 @@
         }
 
         .footer {
-            position: absolute;
-            bottom: 20px;
+            position: relative;
             width: 100%;
             text-align: center;
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.95rem;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
             letter-spacing: 0.5px;
+            padding: 20px;
+            margin-top: 20px;
         }
 
         /* Modal Styles */
@@ -234,6 +242,8 @@
         .modal.active {
             display: flex;
             opacity: 1;
+            /* Prevent scrolling when modal is active */
+            overflow: hidden;
         }
 
         .modal-content {
@@ -246,6 +256,8 @@
             transform: translateY(20px);
             transition: transform 0.4s ease;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal.active .modal-content {
@@ -260,6 +272,7 @@
             cursor: pointer;
             color: #777;
             transition: color 0.2s;
+            z-index: 10;
         }
 
         .close-modal:hover {
@@ -270,6 +283,7 @@
             color: #2c3e50;
             margin-bottom: 20px;
             text-align: center;
+            padding-top: 20px;
         }
 
         .form-group {
@@ -369,7 +383,7 @@
         @media (max-width: 992px) {
             .content {
                 padding: 40px 30px;
-                margin: 0 20px;
+                margin: 20px 15px;
             }
             
             h1 {
@@ -403,12 +417,17 @@
                 width: 150px;
                 padding: 15px;
             }
+            
+            .overlay {
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
         }
 
         @media (max-width: 576px) {
             .content {
                 padding: 30px 20px;
-                margin: 0 15px;
+                margin: 15px 10px;
             }
             
             h1 {
@@ -437,6 +456,11 @@
             .feature {
                 width: 100%;
                 max-width: 300px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
             }
         }
     </style>
@@ -763,15 +787,18 @@
         
         quoteBtn.addEventListener('click', () => {
             quoteModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
         });
         
         closeModal.addEventListener('click', () => {
             quoteModal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
         });
         
         window.addEventListener('click', (e) => {
             if (e.target === quoteModal) {
                 quoteModal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
             }
         });
         
@@ -810,6 +837,7 @@
                         submitBtn.disabled = false;
                         submitBtn.textContent = 'Submit Request';
                         loading.style.display = 'none';
+                        document.body.style.overflow = ''; // Restore scrolling
                     }, 5000);
                 } else {
                     throw new Error('Submission failed');
