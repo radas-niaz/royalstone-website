@@ -63,16 +63,43 @@
 
     .footer { text-align:center; color: rgba(255,255,255,.85); font-size:.95rem; text-shadow:1px 1px 2px rgba(0,0,0,.5); letter-spacing:.5px; padding:28px 20px; margin-top:8px; }
 
-    /* Responsive */
-    @media (max-width: 992px){ .two-col{ grid-template-columns:1fr; } }
-    @media (max-width: 768px){
+    /* === Mobile polish overrides === */
+    @media (max-width: 640px){
+      :root { --nav-h: 64px; }
+      .logo-img { max-height:44px; width:auto; }
+      .main-content { margin-top:calc(var(--nav-h) + 28px + env(safe-area-inset-top,0)); padding:22px 15px 40px; }
       .menu-toggle{ display:flex; }
-      .nav-links{ position:fixed; left:-100%; top:var(--nav-h); flex-direction:column; background:rgba(255,255,255,.95); width:100%; text-align:center; transition:.3s; box-shadow:0 10px 27px rgba(0,0,0,.05); padding:20px 0; backdrop-filter:blur(10px); }
+      .nav-links{
+        position:fixed; left:-100%; top:var(--nav-h);
+        height:calc(100vh - var(--nav-h)); overflow-y:auto;
+        flex-direction:column; background:rgba(255,255,255,.96); width:100%;
+        text-align:center; transition:left .3s ease; box-shadow:0 10px 27px rgba(0,0,0,.05);
+        padding:18px 0 24px; backdrop-filter:blur(10px); gap:10px;
+      }
       .nav-links.active{ left:0; }
-      .nav-links li{ margin:15px 0; }
-      .nav-links a{ font-size:1.05rem; padding:15px; display:block; }
+      .two-col{ grid-template-columns:1fr; }
     }
-    @media (max-width: 576px){ .main-content{ margin-top:calc(var(--nav-h) + 28px); padding:22px 15px 40px; } }
+    @media (max-width: 400px){ .page-header h1{ font-size:1.8rem; } }
+
+    /* Sticky mobile CTA bar */
+    .mobile-cta {
+      position: fixed; left: 0; right: 0;
+      bottom: env(safe-area-inset-bottom, 0);
+      display: none; gap: 8px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 -6px 18px rgba(0,0,0,.12);
+      z-index: 90;
+    }
+    .mobile-cta a, .mobile-cta button {
+      flex: 1; display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 12px 14px;
+      border-radius: 999px; border: 1px solid #e5e7eb;
+      font-weight: 700; font-size: 1rem;
+      background:#fff; color:#1f2937; text-decoration:none;
+    }
+    @media (max-width: 640px) { .mobile-cta { display: flex; } }
+    body.menu-open .mobile-cta, body.modal-open .mobile-cta { display: none; }
   </style>
 </head>
 <body>
@@ -146,9 +173,15 @@
     <section class="cta-section">
       <h2>Ready to Transform Your Space?</h2>
       <p>Get a fast, friendly quote for countertops, blinds, or both. We’ll bring samples and help you choose the perfect finish and fabric.</p>
-      <a href="index.html" class="cta-button">Get a Free Quote</a>
+      <a href="index.html#quote" class="cta-button">Get a Free Quote</a>
     </section>
   </main>
+
+  <!-- Sticky mobile bar (links to index quote) -->
+  <div class="mobile-cta" aria-label="Quick actions">
+    <a href="tel:+15145615982"><i class="fas fa-phone"></i> Call</a>
+    <a href="index.html#quote"><i class="fas fa-comment-dots"></i> Quote</a>
+  </div>
 
   <footer class="footer">
     <p>© <span id="year"></span> Royal Stone Countertops & Blinds. Winnipeg, Manitoba. All rights reserved.</p>
@@ -161,22 +194,28 @@
 
     // Mobile menu toggle
     const mobileMenu = document.getElementById('mobile-menu');
-    const navLinks = document.getElementById('nav-links');
+    const navLinks   = document.getElementById('nav-links');
     mobileMenu?.addEventListener('click', () => {
-      const expanded = mobileMenu.getAttribute('aria-expanded') === 'true';
-      mobileMenu.setAttribute('aria-expanded', String(!expanded));
-      mobileMenu.classList.toggle('is-active');
-      navLinks.classList.toggle('active');
+      const nowActive = navLinks.classList.toggle('active');
+      mobileMenu.setAttribute('aria-expanded', String(nowActive));
+      document.body.classList.toggle('menu-open', nowActive);
     });
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
-        mobileMenu?.classList.remove('is-active');
-        mobileMenu?.setAttribute('aria-expanded','false');
         navLinks.classList.remove('active');
+        mobileMenu.setAttribute('aria-expanded','false');
+        document.body.classList.remove('menu-open');
       });
     });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+        navLinks.classList.remove('active');
+        mobileMenu.setAttribute('aria-expanded','false');
+        document.body.classList.remove('menu-open');
+      }
+    });
 
-    // WebGL background (same as index)
+    // WebGL background (same shader as index)
     const canvas = document.getElementById('webgl-canvas');
     const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
     function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; if (gl) gl.viewport(0,0,canvas.width,canvas.height); }
@@ -238,4 +277,3 @@
   </script>
 </body>
 </html>
-
