@@ -1,699 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | Royal Stone Countertops</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us | Royal Stone Countertops & Blinds</title>
+  <meta name="description" content="About Royal Stone Countertops & Blinds — Winnipeg’s premium stone surfaces and custom window coverings. Learn about our story, process, and values." />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        html, body {
-            height: 100%;
-        }
+  <style>
+    :root { --nav-h: 72px; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; }
+    body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:#333; background:#000; line-height:1.6; overflow-x:hidden; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-            background: #000;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    /* Background */
+    #webgl-canvas { position:fixed; inset:0; width:100%; height:100%; z-index:-1; }
 
-        #webgl-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+    /* Navbar */
+    .navbar { position:fixed; top:0; width:100%; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); height:var(--nav-h); padding:0; box-shadow:0 2px 15px rgba(0,0,0,.1); z-index:99; }
+    .nav-container { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:100%; padding:0 20px; }
+    .logo { display:inline-flex; align-items:center; text-decoration:none; }
+    .logo-img { display:block; height:auto; max-height:calc(var(--nav-h) - 12px); width:auto; aspect-ratio:422 / 364; filter:drop-shadow(0 1px 1px rgba(0,0,0,.15)); }
+    .nav-links { display:flex; list-style:none; align-items:center; gap:26px; }
+    .nav-links a { text-decoration:none; color:#2c3e50; font-weight:500; font-size:1.05rem; transition:color .3s; padding:8px 12px; border-radius:6px; }
+    .nav-links a:hover, .nav-links a.active { color:#1a2530; background:rgba(44,62,80,.1); }
 
-        /* Mobile menu button */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 5px;
-        }
+    /* Mobile menu */
+    .menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:5px; }
+    .menu-toggle span { width:25px; height:3px; background:#2c3e50; margin:3px 0; transition:.3s; }
 
-        .menu-toggle span {
-            width: 25px;
-            height: 3px;
-            background: #2c3e50;
-            margin: 3px 0;
-            transition: 0.3s;
-        }
+    /* Content */
+    .main-content { margin-top:calc(var(--nav-h) + 40px); padding:40px 20px 60px; max-width:1200px; margin-left:auto; margin-right:auto; }
+    .page-header { text-align:center; margin-bottom:36px; padding:20px; }
+    .page-header h1 { font-size:clamp(2rem, 4.5vw, 3rem); color:#fff; text-shadow:0 2px 10px rgba(0,0,0,.5); margin-bottom:12px; }
+    .page-header p { font-size:1.2rem; color:rgba(255,255,255,.92); max-width:720px; margin:0 auto; }
 
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            z-index: 99;
-        }
+    .content-section { background:rgba(255,255,255,.92); border-radius:20px; padding:36px; margin-bottom:28px; box-shadow:0 10px 30px rgba(0,0,0,.15); backdrop-filter:blur(10px); position:relative; overflow:hidden; }
+    .content-section::before { content:""; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, #D4AF37, #1a2530 30%, #2c3e50, #D4AF37); }
+    .content-section h2 { color:#1a2530; font-size:2rem; margin-bottom:18px; }
+    .content-section p { font-size:1.05rem; color:#444; margin-bottom:16px; }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
+    .two-col { display:grid; grid-template-columns: 1.2fr .8fr; gap:18px; }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #2c3e50;
-            text-decoration: none;
-        }
+    .why-choose { background:#f8f9fa; padding:22px; border-radius:15px; border-left:5px solid #2c3e50; }
+    .why-choose h3 { color:#1a2530; margin-bottom:12px; font-size:1.3rem; }
+    .why-choose ul { list-style:none; padding-left:0; }
+    .why-choose li { margin-bottom:10px; padding-left:28px; position:relative; font-size:1.02rem; color:#444; }
+    .why-choose li::before { content:"✓"; color:#27ae60; font-weight:700; position:absolute; left:0; top:0; }
 
-        .logo span {
-            color: #1a2530;
-        }
+    .values-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:18px; margin:18px 0 6px; }
+    .value-card { background:#f8f9fa; padding:22px; border-radius:15px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,.05); transition:transform .35s ease; }
+    .value-card:hover { transform: translateY(-6px); }
+    .value-card i { font-size:2.2rem; color:#2c3e50; margin-bottom:14px; }
+    .value-card h3 { color:#1a2530; margin-bottom:8px; font-size:1.2rem; }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
+    .cta-section { text-align:center; padding:40px 20px; background:rgba(255,255,255,.92); border-radius:20px; margin:28px 0; box-shadow:0 10px 30px rgba(0,0,0,.15); backdrop-filter:blur(10px); }
+    .cta-section h2 { color:#1a2530; font-size:2rem; margin-bottom:12px; }
+    .cta-section p { font-size:1.1rem; max-width:720px; margin:0 auto 18px; color:#555; }
+    .cta-button { display:inline-block; background:linear-gradient(135deg, #2c3e50, #1a2530); color:#fff; font-size:1.05rem; font-weight:700; padding:14px 28px; border-radius:50px; text-decoration:none; transition: all .5s cubic-bezier(.175,.885,.32,1.275); box-shadow:0 5px 15px rgba(0,0,0,.2); letter-spacing:.4px; text-transform:uppercase; }
+    .cta-button:hover { transform: translateY(-4px) scale(1.02); box-shadow:0 10px 25px rgba(0,0,0,.28), 0 5px 10px rgba(0,0,0,.15); background:linear-gradient(135deg, #1a2530, #2c3e50); }
 
-        .nav-links li {
-            margin-left: 30px;
-        }
+    .footer { text-align:center; color: rgba(255,255,255,.85); font-size:.95rem; text-shadow:1px 1px 2px rgba(0,0,0,.5); letter-spacing:.5px; padding:28px 20px; margin-top:8px; }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #2c3e50;
-            font-weight: 500;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-            padding: 8px 12px;
-            border-radius: 4px;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: #1a2530;
-            background: rgba(44, 62, 80, 0.1);
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-top: 80px;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-bottom: 60px;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 50px;
-            padding: 20px;
-        }
-
-        .page-header h1 {
-            font-size: 3rem;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            margin-bottom: 15px;
-        }
-
-        .page-header p {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .content-section {
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
-        }
-
-        .content-section h2 {
-            color: #1a2530;
-            font-size: 2.2rem;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-
-        .content-section p {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            color: #444;
-        }
-
-        .why-choose {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            border-left: 5px solid #2c3e50;
-        }
-
-        .why-choose h3 {
-            color: #1a2530;
-            margin-bottom: 20px;
-            font-size: 1.6rem;
-        }
-
-        .why-choose ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .why-choose li {
-            margin-bottom: 15px;
-            padding-left: 30px;
-            position: relative;
-            font-size: 1.1rem;
-            color: #444;
-        }
-
-        .why-choose li:before {
-            content: "✓";
-            color: #27ae60;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-
-        .value-card {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .value-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .value-card i {
-            font-size: 2.5rem;
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-
-        .value-card h3 {
-            color: #1a2530;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-
-        .cta-section {
-            text-align: center;
-            padding: 50px 20px;
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 20px;
-            margin: 40px 0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
-        }
-
-        .cta-section h2 {
-            color: #1a2530;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .cta-section p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-            color: #555;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #2c3e50, #1a2530);
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 600;
-            padding: 18px 45px;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            border: none;
-            cursor: pointer;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(135deg, #1a2530, #2c3e50);
-        }
-
-        .footer {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.95rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            letter-spacing: 0.5px;
-            padding: 30px 20px;
-            margin-top: 20px;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .nav-links {
-                position: fixed;
-                left: -100%;
-                top: 70px;
-                flex-direction: column;
-                background-color: rgba(255, 255, 255, 0.95);
-                width: 100%;
-                text-align: center;
-                transition: 0.3s;
-                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
-                padding: 20px 0;
-                backdrop-filter: blur(10px);
-            }
-            
-            .nav-links.active {
-                left: 0;
-            }
-            
-            .nav-links li {
-                margin: 15px 0;
-            }
-            
-            .nav-links a {
-                font-size: 1.1rem;
-                padding: 15px;
-                display: block;
-            }
-            
-            .page-header h1 {
-                font-size: 2.2rem;
-            }
-            
-            .page-header p {
-                font-size: 1.1rem;
-            }
-            
-            .content-section {
-                padding: 25px;
-            }
-            
-            .content-section h2 {
-                font-size: 1.8rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .main-content {
-                margin-top: 100px;
-                padding: 20px 15px;
-            }
-            
-            .page-header {
-                margin-bottom: 30px;
-            }
-            
-            .page-header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .content-section {
-                padding: 20px 15px;
-            }
-            
-            .values-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    /* Responsive */
+    @media (max-width: 992px){ .two-col{ grid-template-columns:1fr; } }
+    @media (max-width: 768px){
+      .menu-toggle{ display:flex; }
+      .nav-links{ position:fixed; left:-100%; top:var(--nav-h); flex-direction:column; background:rgba(255,255,255,.95); width:100%; text-align:center; transition:.3s; box-shadow:0 10px 27px rgba(0,0,0,.05); padding:20px 0; backdrop-filter:blur(10px); }
+      .nav-links.active{ left:0; }
+      .nav-links li{ margin:15px 0; }
+      .nav-links a{ font-size:1.05rem; padding:15px; display:block; }
+    }
+    @media (max-width: 576px){ .main-content{ margin-top:calc(var(--nav-h) + 28px); padding:22px 15px 40px; } }
+  </style>
 </head>
 <body>
-    <canvas id="webgl-canvas"></canvas>
-    
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">Royal <span>Stone</span></a>
-            <div class="menu-toggle" id="mobile-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html" class="active">About Us</a></li>
-            </ul>
-        </div>
-    </nav>
-    
-    <div class="main-content">
-        <div class="page-header">
-            <h1>About Royal Stone Countertops</h1>
-            <p>Premium craftsmanship and exceptional service since 2021</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>About Us</h2>
-            <p>Royal Stone CounterTops is a locally owned and operated company proudly serving Winnipeg and the surrounding areas. We specialize in the design, fabrication, and installation of high-quality stone countertops for kitchens, islands, bathrooms, and more.</p>
-            
-            <p>Our mission is simple: to bring lasting beauty and functionality to your home with custom-crafted countertops that match your style, needs, and budget.</p>
-            
-            <p>Whether you're renovating, building new, or upgrading your space, we offer a wide selection of premium granite, quartz, and marble slabs—each carefully selected for durability and elegance.</p>
-            
-            <div class="why-choose">
-                <h3>Why Choose Royal Stone?</h3>
-                <ul>
-                    <li><strong>Expert Craftsmanship</strong> - Our team brings years of experience and attention to detail to every project.</li>
-                    <li><strong>Wide Selection of Stone</strong> - Explore a range of colors and finishes to match any interior design.</li>
-                    <li><strong>Locally Trusted</strong> - We're proud to work with homeowners, contractors, and designers across Winnipeg.</li>
-                    <li><strong>Free Quotes & Personalized Service</strong> - From concept to installation, we're with you every step of the way.</li>
-                </ul>
-            </div>
-            
-            <p>At Royal Stone CounterTops, we believe every surface should reflect the character of the space—and the people who live in it.</p>
-        </div>
-        
-        <div class="content-section">
-            <h2>Our Values</h2>
-            <p>At Royal Stone Countertops, our core values drive everything we do. These principles guide our relationships with customers, employees, and suppliers.</p>
-            
-            <div class="values-grid">
-                <div class="value-card">
-                    <i class="fas fa-gem"></i>
-                    <h3>Quality Craftsmanship</h3>
-                    <p>Every project is executed with meticulous attention to detail and a commitment to perfection.</p>
-                </div>
-                
-                <div class="value-card">
-                    <i class="fas fa-handshake"></i>
-                    <h3>Integrity</h3>
-                    <p>We conduct business with honesty, transparency, and ethical practices in all our dealings.</p>
-                </div>
-                
-                <div class="value-card">
-                    <i class="fas fa-users"></i>
-                    <h3>Customer Focus</h3>
-                    <p>Your satisfaction is our priority. We listen, understand, and exceed your expectations.</p>
-                </div>
-                
-                <div class="value-card">
-                    <i class="fas fa-leaf"></i>
-                    <h3>Sustainability</h3>
-                    <p>We responsibly source materials and implement eco-friendly practices in our operations.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="cta-section">
-            <h2>Ready to Transform Your Space?</h2>
-            <p>Experience the Royal Stone difference with a free consultation and quote.</p>
-            <a href="index.html" class="cta-button">Get a Free Quote</a>
-        </div>
-    </div>
-    
-    <div class="footer">
-        <p>© 2023 Royal Stone Countertops. Winnipeg, Manitoba. All rights reserved.</p>
-        <p>Phone: (514) 561-5982 | Email: info@royalstonecountertops.com</p>
-    </div>
+  <canvas id="webgl-canvas"></canvas>
 
-    <script>
-        // Mobile menu toggle
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = document.getElementById('nav-links');
-        
-        mobileMenu.addEventListener('click', () => {
-            mobileMenu.classList.toggle('is-active');
-            navLinks.classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('is-active');
-                navLinks.classList.remove('active');
-            });
-        });
-        
-        // WebGL setup
-        const canvas = document.getElementById('webgl-canvas');
-        const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-        
-        if (!gl) {
-            alert('WebGL not supported by your browser!');
-        }
-        
-        // Set canvas size to match window
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            gl.viewport(0, 0, canvas.width, canvas.height);
-        }
-        
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        
-        // Vertex shader for fullscreen quad
-        const vertexShaderSource = `#version 300 es
-            in vec4 aPosition;
-            void main() {
-                gl_Position = aPosition;
-            }
-        `;
-        
-        // Fragment shader for enhanced stone effect
-        const fragmentShaderSource = `#version 300 es
-            precision highp float;
-            
-            uniform float uTime;
-            uniform vec2 uResolution;
-            out vec4 fragColor;
-            
-            // Hash functions for noise
-            float hash(float n) { return fract(sin(n) * 1e4); }
-            float hash(vec2 p) { return fract(1e4 * sin(17.0 * p.x + p.y * 0.1) * (0.1 + abs(sin(p.y * 13.0 + p.x)))); }
-            
-            // 2D noise function
-            float noise(vec2 x) {
-                vec2 i = floor(x);
-                vec2 f = fract(x);
-                float a = hash(i);
-                float b = hash(i + vec2(1.0, 0.0));
-                float c = hash(i + vec2(0.0, 1.0));
-                float d = hash(i + vec2(1.0, 1.0));
-                vec2 u = f * f * (3.0 - 2.0 * f);
-                return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-            }
-            
-            // Fractional Brownian Motion
-            float fbm(vec2 p) {
-                float f = 0.0;
-                f += 0.5000 * noise(p); p *= 2.02;
-                f += 0.2500 * noise(p); p *= 2.03;
-                f += 0.1250 * noise(p); p *= 2.01;
-                f += 0.0625 * noise(p);
-                return f / 0.9375;
-            }
-            
-            // Marble pattern function
-            float marble(vec2 p) {
-                float n = fbm(p * 2.5);
-                return sin(p.x * 1.5 + n * 3.0 + uTime * 0.15);
-            }
-            
-            // Granite pattern function
-            float granite(vec2 p) {
-                float n = fbm(p * 4.0);
-                return sin(p.x * 3.0 + p.y * 2.0 + n * 2.0 + uTime * 0.1);
-            }
-            
-            // Color palette for stone
-            vec3 palette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
-                return a + b * cos(6.28318 * (c * t + d));
-            }
-            
-            void main() {
-                vec2 uv = gl_FragCoord.xy / uResolution.xy;
-                uv.x *= uResolution.x / uResolution.y;
-                
-                // Create flowing stone effect
-                vec2 q = vec2(0.0);
-                q.x = marble(uv + 0.1 * uTime);
-                q.y = granite(uv + vec2(1.0));
-                
-                // Combine marble and granite patterns
-                float marblePattern = marble(uv * 1.8 + q + 0.15 * uTime);
-                float granitePattern = granite(uv * 2.2 + q * 0.5 + 0.1 * uTime);
-                
-                // Blend patterns
-                float pattern = mix(marblePattern, granitePattern, 0.5 + 0.2 * sin(uTime * 0.2));
-                
-                // Color mapping for royal stone
-                vec3 color = palette(pattern * 0.5 + 0.5,
-                    vec3(0.85, 0.82, 0.78),  // Base color
-                    vec3(0.3, 0.25, 0.2),    // Variation
-                    vec3(1.0, 0.95, 0.9),    // Highlight
-                    vec3(0.35, 0.3, 0.25)    // Contrast
-                );
-                
-                // Add subtle veining
-                float veins = smoothstep(-0.1, 0.3, sin(pattern * 25.0 + uTime * 0.1));
-                color *= 1.0 - veins * 0.25;
-                
-                // Add crystal highlights
-                float crystals = smoothstep(0.7, 1.0, pattern);
-                color += vec3(0.9, 0.85, 0.8) * crystals * 0.4;
-                
-                // Add depth and lighting
-                float depth = sin(uv.y * 3.0 + uTime * 0.05) * 0.1 + 0.15;
-                color += vec3(depth * 0.8, depth * 0.7, depth * 0.6);
-                
-                // Vignette effect
-                vec2 vig = uv * (1.0 - uv.yx);
-                float vignette = vig.x * vig.y * 15.0;
-                vignette = pow(vignette, 0.25);
-                color *= vignette * 0.7 + 0.3;
-                
-                // Add subtle shimmer
-                float shimmer = fbm(uv * 10.0 + uTime * 0.2) * 0.05;
-                color += vec3(shimmer * 0.8, shimmer * 0.7, shimmer * 0.6);
-                
-                fragColor = vec4(color, 1.0);
-            }
-        `;
-        
-        // Compile shader
-        function compileShader(source, type) {
-            const shader = gl.createShader(type);
-            gl.shaderSource(shader, source);
-            gl.compileShader(shader);
-            
-            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
-                gl.deleteShader(shader);
-                return null;
-            }
-            
-            return shader;
-        }
-        
-        // Create shader program
-        function createProgram(vertexShader, fragmentShader) {
-            const program = gl.createProgram();
-            gl.attachShader(program, vertexShader);
-            gl.attachShader(program, fragmentShader);
-            gl.linkProgram(program);
-            
-            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-                console.error('Program linking error:', gl.getProgramInfoLog(program));
-                gl.deleteProgram(program);
-                return null;
-            }
-            
-            return program;
-        }
-        
-        // Create a simple quad for fullscreen rendering
-        function createQuad() {
-            const vertices = new Float32Array([
-                -1, -1, 0,
-                 1, -1, 0,
-                -1,  1, 0,
-                 1,  1, 0
-            ]);
-            
-            const indices = new Uint16Array([0, 1, 2, 1, 3, 2]);
-            
-            const vertexBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-            
-            const indexBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
-            
-            return {
-                vertexBuffer,
-                indexBuffer,
-                vertexCount: indices.length
-            };
-        }
-        
-        // Initialize shaders and buffers
-        const vertexShader = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
-        const fragmentShader = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
-        const program = createProgram(vertexShader, fragmentShader);
-        
-        const quad = createQuad();
-        
-        // Get attribute and uniform locations
-        const positionAttributeLocation = gl.getAttribLocation(program, 'aPosition');
-        const timeUniformLocation = gl.getUniformLocation(program, 'uTime');
-        const resolutionUniformLocation = gl.getUniformLocation(program, 'uResolution');
-        
-        // Set up rendering
-        gl.useProgram(program);
-        
-        // Render loop
-        let startTime = Date.now();
-        
-        function render() {
-            const currentTime = (Date.now() - startTime) / 1000;
-            
-            // Clear the canvas
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-            
-            // Set uniforms
-            gl.uniform1f(timeUniformLocation, currentTime);
-            gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
-            
-            // Bind buffers
-            gl.bindBuffer(gl.ARRAY_BUFFER, quad.vertexBuffer);
-            gl.enableVertexAttribArray(positionAttributeLocation);
-            gl.vertexAttribPointer(positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
-            
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, quad.indexBuffer);
-            
-            // Draw the quad
-            gl.drawElements(gl.TRIANGLES, quad.vertexCount, gl.UNSIGNED_SHORT, 0);
-            
-            // Request next frame
-            requestAnimationFrame(render);
-        }
-        
-        // Start rendering
-        render();
-    </script>
+  <nav class="navbar" role="navigation" aria-label="Primary">
+    <div class="nav-container">
+      <a href="index.html" class="logo"><img src="images/logo.png" alt="Royal Stone Countertops & Blinds" class="logo-img" width="422" height="364"></a>
+      <div class="menu-toggle" id="mobile-menu" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About Us</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <header class="page-header">
+      <h1>About Royal Stone Countertops & Blinds</h1>
+      <p>Premium craftsmanship in stone surfaces and custom window coverings — proudly serving Winnipeg & surrounding areas.</p>
+    </header>
+
+    <section class="content-section">
+      <div class="two-col">
+        <div>
+          <h2>Who We Are</h2>
+          <p><strong>Royal Stone Countertops & Blinds</strong> is a locally owned company specializing in the design, fabrication, and installation of high-quality <em>quartz</em>, <em>granite</em>, and <em>marble</em> countertops — and custom window coverings including <em>zebra/dual</em>, <em>roller & blackout</em>, and <em>cellular</em> blinds.</p>
+          <p>We handle every step in-house: precise templating, CNC fabrication, and meticulous installs for stone; professional in-home measurement, product selection, and clean, warrantied installs for blinds. One team, consistent quality.</p>
+          <p>Whether you’re renovating or building new, we bring samples to you, provide honest recommendations, and make sure your surfaces and shades look incredible and perform for years.</p>
+        </div>
+        <aside class="why-choose">
+          <h3>Why Homeowners Choose Us</h3>
+          <ul>
+            <li><strong>Craftsmanship</strong> — seam-smart layouts, polished edges, and tidy caulking.</li>
+            <li><strong>Blinds Expertise</strong> — zebra/dual, roller & blackout, cellular; manual or motorized.</li>
+            <li><strong>End-to-End</strong> — measure → fabricate → install by one accountable team.</li>
+            <li><strong>Peace of Mind</strong> — hardware & workmanship warranty; insured, respectful crews.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>What We Do</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <i class="fas fa-kitchen-set"></i>
+          <h3>Stone Countertops</h3>
+          <p>Kitchens, islands, vanities, fireplaces & feature walls — templated precisely, fabricated on modern equipment, and installed flawlessly.</p>
+        </div>
+        <div class="value-card">
+          <i class="fas fa-sliders"></i>
+          <h3>Custom Blinds</h3>
+          <p>Zebra/dual, roller & blackout, and cellular blinds. Options for remote, wall-switch, and smart-home control.</p>
+        </div>
+        <div class="value-card">
+          <i class="fas fa-truck"></i>
+          <h3>Free In-Home Quotes</h3>
+          <p>We come to you with samples, measure accurately, and give a clear, itemized quote for both countertops and blinds.</p>
+        </div>
+        <div class="value-card">
+          <i class="fas fa-shield-halved"></i>
+          <h3>Warranty</h3>
+          <p>Quality materials and careful installs backed by our workmanship warranty.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <h2>Ready to Transform Your Space?</h2>
+      <p>Get a fast, friendly quote for countertops, blinds, or both. We’ll bring samples and help you choose the perfect finish and fabric.</p>
+      <a href="index.html" class="cta-button">Get a Free Quote</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Royal Stone Countertops & Blinds. Winnipeg, Manitoba. All rights reserved.</p>
+    <p>Phone: (514) 561-5982 · Email: info@royalstonecountertops.com</p>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('nav-links');
+    mobileMenu?.addEventListener('click', () => {
+      const expanded = mobileMenu.getAttribute('aria-expanded') === 'true';
+      mobileMenu.setAttribute('aria-expanded', String(!expanded));
+      mobileMenu.classList.toggle('is-active');
+      navLinks.classList.toggle('active');
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu?.classList.remove('is-active');
+        mobileMenu?.setAttribute('aria-expanded','false');
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // WebGL background (same as index)
+    const canvas = document.getElementById('webgl-canvas');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+    function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; if (gl) gl.viewport(0,0,canvas.width,canvas.height); }
+    addEventListener('resize', resizeCanvas); resizeCanvas();
+    if (!gl) { console.warn('WebGL not supported.'); }
+
+    const vertexShaderSource = `#version 300 es
+      in vec4 aPosition; void main(){ gl_Position = aPosition; }`;
+    const fragmentShaderSource = `#version 300 es
+      precision highp float; uniform float uTime; uniform vec2 uResolution; out vec4 fragColor;
+      float hash(float n){ return fract(sin(n)*1e4); }
+      float hash(vec2 p){ return fract(1e4 * sin(17.0*p.x + p.y*0.1) * (0.1 + abs(sin(p.y*13.0 + p.x)))); }
+      float noise(vec2 x){ vec2 i=floor(x); vec2 f=fract(x);
+        float a=hash(i); float b=hash(i+vec2(1.0,0.0)); float c=hash(i+vec2(0.0,1.0)); float d=hash(i+vec2(1.0,1.0));
+        vec2 u=f*f*(3.0-2.0*f); return mix(a,b,u.x) + (c-a)*u.y*(1.0-u.x) + (d-b)*u.x*u.y; }
+      float fbm(vec2 p){ float f=0.0; f+=0.5*noise(p); p*=2.02; f+=0.25*noise(p); p*=2.03; f+=0.125*noise(p); p*=2.01; f+=0.0625*noise(p); return f/0.9375; }
+      float marble(vec2 p){ float n=fbm(p*2.5); return sin(p.x*1.5 + n*3.0 + uTime*0.15); }
+      float granite(vec2 p){ float n=fbm(p*4.0); return sin(p.x*3.0 + p.y*2.0 + n*2.0 + uTime*0.1); }
+      vec3 palette(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b * cos(6.28318 * (c*t + d)); }
+      void main(){
+        vec2 uv=gl_FragCoord.xy/uResolution.xy; uv.x *= uResolution.x/uResolution.y;
+        vec2 q=vec2(0.0); q.x = marble(uv + 0.1*uTime); q.y = granite(uv + vec2(1.0));
+        float mp=marble(uv*1.8 + q + 0.15*uTime); float gp=granite(uv*2.2 + q*0.5 + 0.1*uTime);
+        float pattern=mix(mp,gp,0.5 + 0.2*sin(uTime*0.2));
+        vec3 color=palette(pattern*0.5+0.5, vec3(0.85,0.82,0.78), vec3(0.3,0.25,0.2), vec3(1.0,0.95,0.9), vec3(0.35,0.3,0.25));
+        float veins=smoothstep(-0.1,0.3, sin(pattern*25.0 + uTime*0.1)); color *= 1.0 - veins*0.25;
+        float crystals=smoothstep(0.7,1.0, pattern); color += vec3(0.9,0.85,0.8) * crystals * 0.4;
+        float depth=sin(uv.y*3.0 + uTime*0.05)*0.1 + 0.15; color += vec3(depth*0.8, depth*0.7, depth*0.6);
+        vec2 vig=uv*(1.0-uv.yx); float vignette=vig.x*vig.y*15.0; vignette = pow(vignette, 0.25); color *= vignette*0.7 + 0.3;
+        float shimmer = fbm(uv*10.0 + uTime*0.2)*0.05; color += vec3(shimmer*0.8, shimmer*0.7, shimmer*0.6);
+        fragColor = vec4(color, 1.0);
+      }`;
+
+    function compileShader(src, type){ const s=gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){ console.error(gl.getShaderInfoLog(s)); gl.deleteShader(s); return null; } return s; }
+    function createProgram(vs, fs){ const p=gl.createProgram(); gl.attachShader(p, vs); gl.attachShader(p, fs); gl.linkProgram(p); if(!gl.getProgramParameter(p, gl.LINK_STATUS)){ console.error(gl.getProgramInfoLog(p)); gl.deleteProgram(p); return null; } return p; }
+    if (gl){
+      const vs = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
+      const fs = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
+      const program = createProgram(vs, fs);
+      const vertices = new Float32Array([-1,-1,0, 1,-1,0, -1,1,0, 1,1,0]);
+      const indices  = new Uint16Array([0,1,2, 1,3,2]);
+      const vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+      const ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+      const posLoc = gl.getAttribLocation(program, 'aPosition');
+      const tLoc   = gl.getUniformLocation(program, 'uTime');
+      const rLoc   = gl.getUniformLocation(program, 'uResolution');
+      gl.useProgram(program);
+      (function render(){
+        const t=(Date.now())/1000;
+        gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.uniform1f(tLoc,t); gl.uniform2f(rLoc, canvas.width, canvas.height);
+        gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.enableVertexAttribArray(posLoc);
+        gl.vertexAttribPointer(posLoc,3,gl.FLOAT,false,0,0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib);
+        gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+        requestAnimationFrame(render);
+      })();
+    }
+  </script>
 </body>
 </html>
+
