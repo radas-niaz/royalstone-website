@@ -64,7 +64,7 @@
     .card p { color:#607086; }
     .pill { display:inline-block; padding:.35rem .65rem; border-radius:999px; font-size:.75rem; background:#f1f5f9; border:1px solid #e2e8f0; color:#334155; }
 
-    /* Slower hover on tiles */
+    /* Slower hover on tiles (and gentle zoom) */
     .product-tile { background:#fff; border:1px solid #e5e7eb; border-radius:16px; overflow:hidden; display:flex; flex-direction:column; transition: transform .65s ease, box-shadow .65s ease; }
     .product-tile:hover { transform: translateY(-6px); box-shadow: 0 18px 28px rgba(0,0,0,.14); }
     .product-tile img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; height: auto; transition: transform .7s ease; }
@@ -93,16 +93,71 @@
     .loading-spinner { border: 4px solid rgba(0, 0, 0, 0.08); border-radius: 50%; border-top: 4px solid #2c3e50; width: 28px; height: 28px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .menu-toggle { display: flex; }
-      .nav-links { position: fixed; left: -100%; top: var(--nav-h); flex-direction: column; background: rgba(255,255,255,.95); width: 100%; text-align: center; transition: .3s; box-shadow: 0 10px 27px rgba(0,0,0,.05); padding: 20px 0; backdrop-filter: blur(10px); }
+    /* === Mobile polish overrides === */
+    @media (max-width: 640px) {
+      :root { --nav-h: 64px; }
+      .logo-img { max-height: 44px; width: auto; }
+      .hero { padding-top: calc(var(--nav-h) + 20px + env(safe-area-inset-top, 0)); }
+      .hero-content { padding: 22px 16px; border-radius: 16px; }
+      .eyebrow { font-size: .78rem; }
+      .hero h1 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+      .hero p  { font-size: 1rem; }
+
+      .nav-links {
+        position: fixed;
+        left: -100%;
+        top: var(--nav-h);
+        height: calc(100vh - var(--nav-h));
+        overflow-y: auto;
+        flex-direction: column;
+        background: rgba(255,255,255,.96);
+        width: 100%;
+        text-align: center;
+        transition: left .3s ease;
+        box-shadow: 0 10px 27px rgba(0,0,0,.05);
+        padding: 18px 0 24px;
+        backdrop-filter: blur(10px);
+        gap: 10px;
+      }
       .nav-links.active { left: 0; }
-      .nav-links li { margin: 15px 0; }
-      .nav-links a { font-size: 1.05rem; padding: 15px; display: block; }
-      .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      .features { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .grid-3   { grid-template-columns: 1fr; }
+
+      .product-tile { border-radius: 12px; }
+      .product-tile img { aspect-ratio: 1 / 1; }
+
+      .cta-buttons { flex-direction: column; gap: 10px; }
     }
-    @media (max-width: 576px) { .hero-content { padding: 26px 18px; margin: 14px; } .cta-buttons { flex-direction: column; gap: 12px; } .features { grid-template-columns: 1fr; } .modal-content { width:95%; padding:18px; } }
+    @media (max-width: 400px) { .features { grid-template-columns: 1fr; } }
+
+    /* Turn off “hover” effects on touch devices */
+    @media (hover: none), (pointer: coarse) {
+      .product-tile:hover { transform: none; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+      .product-tile:hover img { transform: none; }
+    }
+
+    /* Sticky mobile CTA bar */
+    .mobile-cta {
+      position: fixed; left: 0; right: 0;
+      bottom: env(safe-area-inset-bottom, 0);
+      display: none; gap: 8px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 -6px 18px rgba(0,0,0,.12);
+      z-index: 90;
+    }
+    .mobile-cta a, .mobile-cta button {
+      flex: 1; display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 12px 14px;
+      border-radius: 999px; border: 1px solid #e5e7eb;
+      font-weight: 700; font-size: 1rem;
+      background:#fff; color:#1f2937;
+    }
+    .mobile-cta a { text-decoration: none; }
+    .mobile-cta button { background: linear-gradient(135deg, #2c3e50, #1a2530); color:#fff; border:none; }
+    @media (max-width: 640px) { .mobile-cta { display: flex; } }
+    body.menu-open .mobile-cta, body.modal-open .mobile-cta { display: none; }
   </style>
 </head>
 <body>
@@ -155,21 +210,21 @@
 
       <div class="grid grid-3" style="margin-top:14px;">
         <article class="product-tile">
-          <img src="images/blinds1.jpg" width="768" height="768" alt="Zebra / Dual blinds" loading="lazy">
+          <img src="images/blinds1.jpg" decoding="async" loading="lazy" width="768" height="768" alt="Zebra / Dual blinds">
           <div class="body">
             <h3>Zebra / Dual</h3>
             <p>Alternate sheer & solid bands for day–night control without sacrificing style.</p>
           </div>
         </article>
         <article class="product-tile">
-          <img src="images/blinds2.jpg" width="768" height="768" alt="Roller & Blackout blinds" loading="lazy">
+          <img src="images/blinds2.jpg" decoding="async" loading="lazy" width="768" height="768" alt="Roller & Blackout blinds">
           <div class="body">
             <h3>Roller & Blackout</h3>
             <p>Sleek rollers for living spaces; blackout fabrics for bedrooms & media rooms.</p>
           </div>
         </article>
         <article class="product-tile">
-          <img src="images/blinds3.jpg" width="768" height="768" alt="Faux Wood & Cellular blinds" loading="lazy">
+          <img src="images/blinds3.jpg" decoding="async" loading="lazy" width="768" height="768" alt="Faux Wood & Cellular blinds">
           <div class="body">
             <h3>Faux Wood & Cellular</h3>
             <p>Classic wood look or energy-efficient honeycomb cells that insulate your home.</p>
@@ -192,21 +247,21 @@
       <p class="muted">Quartz · Granite · Marble — precise templating, CNC fabrication, and spotless installation.</p>
       <div class="grid grid-3" style="margin-top:14px;">
         <article class="product-tile">
-          <img src="images/countertop1.jpg" width="768" height="768" alt="Kitchen countertop" loading="lazy">
+          <img src="images/countertop1.jpg" decoding="async" loading="lazy" width="768" height="768" alt="Kitchen countertop">
           <div class="body">
             <h3>Kitchen</h3>
             <p>Seams aligned with grain, polished edges, sink & cooktop cutouts included.</p>
           </div>
         </article>
         <article class="product-tile">
-          <img src="images/countertop2.jpg" width="768" height="768" alt="Washroom countertop" loading="lazy">
+          <img src="images/countertop2.jpg" decoding="async" loading="lazy" width="768" height="768" alt="Washroom countertop">
           <div class="body">
             <h3>Washroom</h3>
             <p>Vanities, splashes, and niche shelves with a waterproof finish.</p>
           </div>
         </article>
         <article class="product-tile">
-          <img src="images/countertop3.jpg" width="768" height="768" alt="Fireplace & TV wall stone cladding" loading="lazy">
+          <img src="images/countertop3.jpg" decoding="async" loading="lazy" width="768" height="768" alt="Fireplace & TV wall stone cladding">
           <div class="body">
             <h3>Fireplace & TV Wall</h3>
             <p>Large-format cladding and surrounds that transform living spaces.</p>
@@ -277,6 +332,12 @@
     </div>
   </div>
 
+  <!-- Sticky mobile bar -->
+  <div class="mobile-cta" aria-label="Quick actions">
+    <a href="tel:+15145615982"><i class="fas fa-phone"></i> Call</a>
+    <button type="button" id="quoteBtnMobile"><i class="fas fa-comment-dots"></i> Quote</button>
+  </div>
+
   <div class="footer">
     <p>© <span id="year"></span> Royal Stone Countertops & Blinds. Winnipeg, Manitoba. All rights reserved.</p>
   </div>
@@ -287,19 +348,106 @@
 
     // Mobile menu toggle
     const mobileMenu = document.getElementById('mobile-menu');
-    const navLinks = document.getElementById('nav-links');
-    mobileMenu.addEventListener('click', () => {
-      const expanded = mobileMenu.getAttribute('aria-expanded') === 'true';
-      mobileMenu.setAttribute('aria-expanded', String(!expanded));
-      mobileMenu.classList.toggle('is-active');
-      navLinks.classList.toggle('active');
+    const navLinks   = document.getElementById('nav-links');
+    mobileMenu?.addEventListener('click', () => {
+      const nowActive = navLinks.classList.toggle('active');
+      mobileMenu.setAttribute('aria-expanded', String(nowActive));
+      document.body.classList.toggle('menu-open', nowActive);
     });
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
-        mobileMenu.classList.remove('is-active');
-        mobileMenu.setAttribute('aria-expanded','false');
         navLinks.classList.remove('active');
+        mobileMenu.setAttribute('aria-expanded','false');
+        document.body.classList.remove('menu-open');
       });
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+        navLinks.classList.remove('active');
+        mobileMenu.setAttribute('aria-expanded','false');
+        document.body.classList.remove('menu-open');
+      }
+    });
+
+    // Open quote modal from sticky bar
+    document.getElementById('quoteBtnMobile')?.addEventListener('click', () => {
+      document.getElementById('quoteBtn')?.click();
+    });
+
+    // When modal opens/closes, toggle a body class to hide the sticky bar
+    const quoteModal = document.getElementById('quoteModal');
+    const closeModal = document.getElementById('closeModal');
+    const observeModal = () => {
+      if (!quoteModal) return;
+      const onOpen = () => document.body.classList.add('modal-open');
+      const onClose = () => document.body.classList.remove('modal-open');
+      const mo = new MutationObserver(() => {
+        if (quoteModal.classList.contains('active')) onOpen(); else onClose();
+      });
+      mo.observe(quoteModal, { attributes:true, attributeFilter:['class'] });
+    };
+    observeModal();
+
+    // Quote modal open/close
+    const quoteBtn = document.getElementById('quoteBtn');
+    const quoteForm = document.getElementById('quoteForm');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage   = document.getElementById('errorMessage');
+    const loading        = document.getElementById('loading');
+    const submitBtn      = document.getElementById('submitBtn');
+    const confirmPhone   = document.getElementById('confirmPhone');
+
+    quoteBtn.addEventListener('click', () => {
+      quoteModal.classList.add('active');
+      document.body.classList.add('modal-open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => { document.getElementById('name')?.focus(); }, 50);
+    });
+    closeModal.addEventListener('click', () => {
+      quoteModal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = '';
+    });
+    addEventListener('keydown', (e)=>{ if(e.key==='Escape' && quoteModal.classList.contains('active')) closeModal.click(); });
+    addEventListener('click', (e)=>{ if(e.target===quoteModal) closeModal.click(); });
+
+    // If URL has #quote, open the modal
+    if (location.hash === '#quote') {
+      setTimeout(() => quoteBtn.click(), 100);
+    }
+
+    // Submit (Google Apps Script endpoint)
+    quoteForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true; submitBtn.textContent = 'Sending...';
+      loading.style.display = 'block'; errorMessage.style.display = 'none';
+      const formData = new FormData(quoteForm);
+      fetch('https://script.google.com/macros/s/AKfycbwLwZgTjYFf-sD60CiWbzzfv1BwhpGb1kq3sasw0YimkCuS5E-hMcLIcdMKR1FspvXWnA/exec', { method: 'POST', body: formData })
+        .then(r => r.json())
+        .then(data => {
+          if (data.result === 'success') {
+            quoteForm.style.display = 'none';
+            successMessage.style.display = 'block';
+            confirmPhone.textContent = formData.get('phone');
+            setTimeout(() => {
+              quoteForm.reset();
+              quoteModal.classList.remove('active');
+              document.body.classList.remove('modal-open');
+              quoteForm.style.display = 'block';
+              successMessage.style.display = 'none';
+              submitBtn.disabled = false; submitBtn.textContent = 'Submit Request';
+              loading.style.display = 'none'; document.body.style.overflow = '';
+            }, 5000);
+          } else { throw new Error('Submission failed'); }
+        })
+        .catch(err => {
+          console.error(err);
+          errorMessage.textContent = 'There was an error submitting your request. Please try again.';
+          errorMessage.style.display = 'block';
+          submitBtn.disabled = false; submitBtn.textContent = 'Submit Request';
+          loading.style.display = 'none';
+          setTimeout(()=>{ errorMessage.style.display = 'none'; }, 5000);
+        });
     });
 
     // WebGL background
@@ -365,54 +513,6 @@
         requestAnimationFrame(render);
       })();
     }
-
-    // Quote modal
-    const quoteBtn = document.getElementById('quoteBtn');
-    const quoteModal = document.getElementById('quoteModal');
-    const closeModal = document.getElementById('closeModal');
-    const quoteForm = document.getElementById('quoteForm');
-    const successMessage = document.getElementById('successMessage');
-    const errorMessage   = document.getElementById('errorMessage');
-    const loading        = document.getElementById('loading');
-    const submitBtn      = document.getElementById('submitBtn');
-    const confirmPhone   = document.getElementById('confirmPhone');
-
-    quoteBtn.addEventListener('click', () => { quoteModal.classList.add('active'); document.body.style.overflow = 'hidden'; setTimeout(()=>document.getElementById('name')?.focus(),50); });
-    closeModal.addEventListener('click', () => { quoteModal.classList.remove('active'); document.body.style.overflow = ''; });
-    addEventListener('keydown', (e)=>{ if(e.key==='Escape' && quoteModal.classList.contains('active')) closeModal.click(); });
-    addEventListener('click', (e)=>{ if(e.target===quoteModal) closeModal.click(); });
-
-    quoteForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      submitBtn.disabled = true; submitBtn.textContent = 'Sending...';
-      loading.style.display = 'block'; errorMessage.style.display = 'none';
-      const formData = new FormData(quoteForm);
-      fetch('https://script.google.com/macros/s/AKfycbwLwZgTjYFf-sD60CiWbzzfv1BwhpGb1kq3sasw0YimkCuS5E-hMcLIcdMKR1FspvXWnA/exec', { method: 'POST', body: formData })
-        .then(r => r.json())
-        .then(data => {
-          if (data.result === 'success') {
-            quoteForm.style.display = 'none';
-            successMessage.style.display = 'block';
-            confirmPhone.textContent = formData.get('phone');
-            setTimeout(() => {
-              quoteForm.reset();
-              quoteModal.classList.remove('active');
-              quoteForm.style.display = 'block';
-              successMessage.style.display = 'none';
-              submitBtn.disabled = false; submitBtn.textContent = 'Submit Request';
-              loading.style.display = 'none'; document.body.style.overflow = '';
-            }, 5000);
-          } else { throw new Error('Submission failed'); }
-        })
-        .catch(err => {
-          console.error(err);
-          errorMessage.textContent = 'There was an error submitting your request. Please try again.';
-          errorMessage.style.display = 'block';
-          submitBtn.disabled = false; submitBtn.textContent = 'Submit Request';
-          loading.style.display = 'none';
-          setTimeout(()=>{ errorMessage.style.display = 'none'; }, 5000);
-        });
-    });
   </script>
 </body>
 </html>
