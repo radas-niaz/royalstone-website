@@ -1,1000 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Stone Countertops | Premium Stone Surfaces</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Royal Stone Countertops & Blinds | Premium Surfaces & Window Coverings</title>
+  <meta name="description" content="Winnipeg’s premium quartz, granite, marble countertops, and custom window blinds & shades. Free in-home measurement and quotes." />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        html, body {
-            height: 100%;
-        }
+  <style>
+    :root { --nav-h: 72px; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; }
+    body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:#333; background:#000; line-height:1.6; overflow-x:hidden; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-            background: #000;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    /* Background */
+    #webgl-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; }
 
-        #webgl-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+    /* Mobile menu */
+    .menu-toggle { display: none; flex-direction: column; cursor: pointer; padding: 5px; }
+    .menu-toggle span { width: 25px; height: 3px; background: #2c3e50; margin: 3px 0; transition: 0.3s; }
 
-        /* Mobile menu button */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 5px;
-        }
+    /* Navbar */
+    .navbar { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); height: var(--nav-h); padding: 0; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); z-index: 99; }
+    .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; padding: 0 20px; }
+    .logo { display:inline-flex; align-items:center; text-decoration:none; }
+    .logo-img { display:block; height:auto; max-height: calc(var(--nav-h) - 12px); width:auto; aspect-ratio:422 / 364; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15)); }
+    .nav-links { display: flex; list-style: none; align-items:center; gap: 26px; }
+    .nav-links a { text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 1.05rem; transition: color 0.3s; padding: 8px 12px; border-radius: 6px; }
+    .nav-links a:hover, .nav-links a.active { color: #1a2530; background: rgba(44, 62, 80, 0.1); }
 
-        .menu-toggle span {
-            width: 25px;
-            height: 3px;
-            background: #2c3e50;
-            margin: 3px 0;
-            transition: 0.3s;
-        }
+    /* Hero */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; position: relative; z-index: 10; padding-top: calc(var(--nav-h) + 40px); }
+    .hero-content { max-width: 1000px; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px); border-radius: 20px; padding: 50px 40px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 5px 15px rgba(0, 0, 0, 0.1); position: relative; overflow: hidden; margin: 20px; width: calc(100% - 40px); }
+    .hero-content::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #2c3e50, #1a2530, #2c3e50); }
+    .eyebrow { display:inline-block; margin-bottom:8px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; font-size:.85rem; color:#334155; background:#f1f5f9; padding:.3rem .6rem; border-radius:999px; border:1px solid #e2e8f0; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin: 8px 0 10px; color: #1a2530; font-weight: 900; letter-spacing: .3px; line-height: 1.15; }
+    .hero p { font-size: clamp(1.05rem, 2.2vw, 1.35rem); margin-bottom: 24px; color: #4b5563; font-weight: 400; max-width: 760px; margin-left: auto; margin-right: auto; line-height: 1.5; }
 
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            z-index: 99;
-        }
+    .cta-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 14px; }
+    .cta-button { display: inline-block; background: linear-gradient(135deg, #2c3e50, #1a2530); color: white; font-size: 1.05rem; font-weight: 700; padding: 16px 28px; border-radius: 50px; text-decoration: none; transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.1); border: none; cursor: pointer; letter-spacing: .4px; text-transform: uppercase; position: relative; overflow: hidden; }
+    .cta-button:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.28), 0 5px 10px rgba(0, 0, 0, 0.15); background: linear-gradient(135deg, #1a2530, #2c3e50); }
+    .secondary-button { background: transparent; border: 2px solid #2c3e50; color: #2c3e50; }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
+    /* Features */
+    .features { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(160px, 1fr)); margin: 28px 0 8px; }
+    .feature { background: rgba(255, 255, 255, 0.75); padding: 18px; border-radius: 14px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); transition: transform 0.25s ease; text-align:center; }
+    .feature:hover { transform: translateY(-4px); }
+    .feature i { font-size: 2rem; margin-bottom: 10px; color: #2c3e50; }
+    .feature h3 { font-size: 1rem; margin-bottom: 6px; color: #1a2530; }
+    .feature p { font-size: .9rem; color: #606a75; }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #2c3e50;
-            text-decoration: none;
-        }
+    /* Sections */
+    .section { padding: 56px 20px; position: relative; z-index: 10; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); color: #0f172a; margin-bottom: 8px; }
+    .muted { color: #64748b; }
+    .grid { display: grid; gap: 16px; }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-        .logo span {
-            color: #1a2530;
-        }
+    .card { background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px; }
+    .card h3 { margin-bottom:6px; }
+    .card p { color:#607086; }
+    .pill { display:inline-block; padding:.35rem .65rem; border-radius:999px; font-size:.75rem; background:#f1f5f9; border:1px solid #e2e8f0; color:#334155; }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
+    /* Slower hover on tiles */
+    .product-tile { background:#fff; border:1px solid #e5e7eb; border-radius:16px; overflow:hidden; display:flex; flex-direction:column; transition: transform .65s ease, box-shadow .65s ease; }
+    .product-tile:hover { transform: translateY(-6px); box-shadow: 0 18px 28px rgba(0,0,0,.14); }
+    .product-tile img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; height: auto; transition: transform .7s ease; }
+    .product-tile:hover img { transform: scale(1.05); }
+    .product-tile .body { padding:14px; }
 
-        .nav-links li {
-            margin-left: 30px;
-        }
+    /* Footer */
+    .footer { text-align: center; color: rgba(255, 255, 255, 0.8); font-size: 0.95rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); letter-spacing: 0.5px; padding: 30px 20px; margin-top: 20px; }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #2c3e50;
-            font-weight: 500;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-            padding: 8px 12px;
-            border-radius: 4px;
-        }
+    /* Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 100; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+    .modal.active { display: flex; opacity: 1; overflow: hidden; }
+    .modal-content { background: white; border-radius: 15px; width: 90%; max-width: 560px; padding: 26px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); transform: translateY(20px); transition: transform 0.4s ease; position: relative; max-height: 90vh; overflow-y: auto; }
+    .modal.active .modal-content { transform: translateY(0); }
+    .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #777; }
+    .modal h2 { color: #2c3e50; margin-bottom: 16px; text-align: center; padding-top: 12px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #3b4450; }
+    .form-group input, .form-group select { width: 100%; padding: 11px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 1rem; }
+    .checkboxes { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:10px; }
+    .checkboxes label { display:flex; align-items:center; gap:8px; font-size:.95rem; color:#374151; border:1px solid #e5e7eb; border-radius:10px; padding:8px 10px; background:#fafafa; }
+    .submit-btn { background: linear-gradient(135deg, #2c3e50, #1a2530); color: white; border: none; padding: 14px; width: 100%; border-radius: 10px; font-size: 1.05rem; font-weight: 700; cursor: pointer; }
+    .success-message { display: none; text-align: center; padding: 20px; color: #27ae60; font-size: 1.2rem; font-weight: 600; }
+    .error-message { display: none; text-align: center; padding: 12px; color: #e74c3c; font-size: .98rem; margin-top: 10px; background: rgba(231, 76, 60, 0.08); border-radius: 8px; }
+    .loading { display: none; text-align: center; padding: 12px; }
+    .loading-spinner { border: 4px solid rgba(0, 0, 0, 0.08); border-radius: 50%; border-top: 4px solid #2c3e50; width: 28px; height: 28px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-        .nav-links a:hover, .nav-links a.active {
-            color: #1a2530;
-            background: rgba(44, 62, 80, 0.1);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            z-index: 10;
-            padding-top: 100px;
-        }
-
-        .hero-content {
-            max-width: 900px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 50px 40px;
-            box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.25),
-                0 5px 15px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-            position: relative;
-            overflow: hidden;
-            margin: 20px;
-            width: calc(100% - 40px);
-        }
-
-        .hero-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #2c3e50, #1a2530, #2c3e50);
-        }
-
-        @keyframes fadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px) scale(0.98);
-                filter: blur(5px);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        .hero h1 {
-            font-size: 3.8rem;
-            margin-bottom: 15px;
-            color: #1a2530;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            font-weight: 800;
-            letter-spacing: 1px;
-            line-height: 1.1;
-        }
-
-        .hero p {
-            font-size: 1.6rem;
-            margin-bottom: 35px;
-            color: #555;
-            font-weight: 300;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.4;
-        }
-
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #2c3e50, #1a2530);
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 600;
-            padding: 18px 45px;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 
-                0 5px 15px rgba(0, 0, 0, 0.2),
-                0 2px 5px rgba(0, 0, 0, 0.1);
-            border: none;
-            cursor: pointer;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 
-                0 10px 25px rgba(0, 0, 0, 0.3),
-                0 5px 10px rgba(0, 0, 0, 0.15);
-            background: linear-gradient(135deg, #1a2530, #2c3e50);
-        }
-
-        .cta-button:active {
-            transform: translateY(0) scale(0.98);
-        }
-
-        .cta-button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -60%;
-            width: 20px;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(25deg);
-            transition: all 0.6s;
-        }
-
-        .cta-button:hover::after {
-            left: 120%;
-        }
-
-        .secondary-button {
-            background: transparent;
-            border: 2px solid #2c3e50;
-            color: #2c3e50;
-        }
-
-        .secondary-button:hover {
-            background: rgba(44, 62, 80, 0.05);
-        }
-
-        /* Features Section */
-        .features {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-
-        .feature {
-            background: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            width: 180px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .feature:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-
-        .feature h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            color: #1a2530;
-        }
-
-        .feature p {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.95rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            letter-spacing: 0.5px;
-            padding: 30px 20px;
-            margin-top: 20px;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal.active {
-            display: flex;
-            opacity: 1;
-            overflow: hidden;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transform: translateY(20px);
-            transition: transform 0.4s ease;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal.active .modal-content {
-            transform: translateY(0);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #777;
-            transition: color 0.2s;
-            z-index: 10;
-        }
-
-        .close-modal:hover {
-            color: #2c3e50;
-        }
-
-        .modal h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            text-align: center;
-            padding-top: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #444;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            border-color: #2c3e50;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #2c3e50, #1a2530);
-            color: white;
-            border: none;
-            padding: 14px;
-            width: 100%;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .submit-btn:disabled {
-            background: #7f8c8d;
-            transform: none;
-            cursor: not-allowed;
-        }
-
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: #27ae60;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-
-        .error-message {
-            display: none;
-            text-align: center;
-            padding: 15px;
-            color: #e74c3c;
-            font-size: 1rem;
-            margin-top: 15px;
-            background: rgba(231, 76, 60, 0.1);
-            border-radius: 8px;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 15px;
-        }
-
-        .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top: 4px solid #2c3e50;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive design */
-        @media (max-width: 992px) {
-            .hero-content {
-                padding: 40px 30px;
-                margin: 20px;
-            }
-            
-            .hero h1 {
-                font-size: 3rem;
-            }
-            
-            .hero p {
-                font-size: 1.4rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .nav-links {
-                position: fixed;
-                left: -100%;
-                top: 70px;
-                flex-direction: column;
-                background-color: rgba(255, 255, 255, 0.95);
-                width: 100%;
-                text-align: center;
-                transition: 0.3s;
-                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
-                padding: 20px 0;
-                backdrop-filter: blur(10px);
-            }
-            
-            .nav-links.active {
-                left: 0;
-            }
-            
-            .nav-links li {
-                margin: 15px 0;
-            }
-            
-            .nav-links a {
-                font-size: 1.1rem;
-                padding: 15px;
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.2rem;
-            }
-            
-            .cta-button {
-                font-size: 1.1rem;
-                padding: 16px 35px;
-            }
-            
-            .features {
-                gap: 15px;
-            }
-            
-            .feature {
-                width: 150px;
-                padding: 15px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero-content {
-                padding: 30px 20px;
-                margin: 15px;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .cta-button {
-                width: 100%;
-                padding: 16px;
-            }
-            
-            .features {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .feature {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .modal-content {
-                width: 95%;
-                padding: 20px;
-            }
-            
-            .hero {
-                padding-top: 100px;
-            }
-        }
-    </style>
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu-toggle { display: flex; }
+      .nav-links { position: fixed; left: -100%; top: var(--nav-h); flex-direction: column; background: rgba(255,255,255,.95); width: 100%; text-align: center; transition: .3s; box-shadow: 0 10px 27px rgba(0,0,0,.05); padding: 20px 0; backdrop-filter: blur(10px); }
+      .nav-links.active { left: 0; }
+      .nav-links li { margin: 15px 0; }
+      .nav-links a { font-size: 1.05rem; padding: 15px; display: block; }
+      .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 576px) { .hero-content { padding: 26px 18px; margin: 14px; } .cta-buttons { flex-direction: column; gap: 12px; } .features { grid-template-columns: 1fr; } .modal-content { width:95%; padding:18px; } }
+  </style>
 </head>
 <body>
-    <canvas id="webgl-canvas"></canvas>
-    
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">Royal <span>Stone</span></a>
-            <div class="menu-toggle" id="mobile-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-            </ul>
-        </div>
-    </nav>
-    
-    <div class="hero">
-        <div class="hero-content">
-            <h1>Royal Stone Countertops</h1>
-            <p>Serving Winnipeg & Surrounding Areas with Premium Stone Surfaces</p>
-            
-            <div class="features">
-                <div class="feature">
-                    <i class="fas fa-utensils"></i>
-                    <h3>Kitchen Counters</h3>
-                    <p>Beautiful granite and quartz surfaces</p>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-border-all"></i>
-                    <h3>Island Tops</h3>
-                    <p>Custom designs for your kitchen island</p>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-bath"></i>
-                    <h3>Bathroom Vanities</h3>
-                    <p>Elegant stone vanity tops</p>
-                </div>
-            </div>
-            
-            <div class="cta-buttons">
-                <button class="cta-button" id="quoteBtn">Get a Free Quote</button>
-                <a href="tel:+15145615982" class="cta-button secondary-button">
-                    <i class="fas fa-phone"></i> Call Now: (514) 561-5982
-                </a>
-            </div>
-        </div>
-        <div class="footer">
-            <p>© 2023 Royal Stone Countertops. Winnipeg, Manitoba. All rights reserved.</p>
-        </div>
-    </div>
+  <canvas id="webgl-canvas"></canvas>
 
-    <!-- Quote Request Modal -->
-    <div class="modal" id="quoteModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeModal">&times;</span>
-            <h2>Request a Free Quote</h2>
-            <form id="quoteForm">
-                <div class="form-group">
-                    <label for="name">Full Name *</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number *</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="project">Project Type</label>
-                    <select id="project" name="project">
-                        <option value="kitchen">Kitchen Countertop</option>
-                        <option value="island">Kitchen Island</option>
-                        <option value="bathroom">Bathroom Vanity</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
-                <div class="loading" id="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Sending your request...</p>
-                </div>
-                <div class="error-message" id="errorMessage"></div>
-            </form>
-            <div class="success-message" id="successMessage">
-                <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                <p>Thank you! Your quote request has been sent successfully.</p>
-                <p>We'll contact you shortly at <strong id="confirmPhone"></strong>.</p>
-            </div>
-        </div>
+  <nav class="navbar" role="navigation" aria-label="Primary">
+    <div class="nav-container">
+      <a href="index.html" class="logo"><img src="images/logo.png" alt="Royal Stone Countertops & Blinds" class="logo-img" width="422" height="364"></a>
+      <div class="menu-toggle" id="mobile-menu" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#blinds">Blinds</a></li>
+        <li><a href="#countertops">Countertops</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
     </div>
+  </nav>
 
-    <script>
-        // Mobile menu toggle
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = document.getElementById('nav-links');
-        
-        mobileMenu.addEventListener('click', () => {
-            mobileMenu.classList.toggle('is-active');
-            navLinks.classList.toggle('active');
+  <div class="hero">
+    <div class="hero-content">
+      <span class="eyebrow">Quartz · Granite · Marble · Custom Blinds</span>
+      <h1>Royal Stone Countertops & Blinds</h1>
+      <p>Premium stone surfaces and custom window coverings—templated, fabricated & installed. Serving Winnipeg & surrounding areas.</p>
+
+      <div class="features" aria-label="Key services">
+        <div class="feature"><i class="fas fa-utensils"></i><h3>Kitchen Counters</h3><p>Durable quartz & granite</p></div>
+        <div class="feature"><i class="fas fa-border-all"></i><h3>Island Tops</h3><p>Seamless, custom cut</p></div>
+        <div class="feature"><i class="fas fa-bath"></i><h3>Bathroom Vanities</h3><p>Polished edges, precise fit</p></div>
+        <div class="feature"><i class="fas fa-sliders"></i><h3>Zebra / Dual</h3><p>Light control with style</p></div>
+        <div class="feature"><i class="fas fa-circle-half-stroke"></i><h3>Blackout & Roller</h3><p>Privacy & better sleep</p></div>
+        <div class="feature"><i class="fas fa-bolt"></i><h3>Motorized</h3><p>Remote & smart-home ready</p></div>
+      </div>
+
+      <div class="cta-buttons">
+        <button class="cta-button" id="quoteBtn" aria-haspopup="dialog" aria-controls="quoteModal">Get a Free Quote</button>
+        <a href="tel:+15145615982" class="cta-button secondary-button"><i class="fas fa-phone"></i> Call: (514) 561-5982</a>
+      </div>
+    </div>
+    <div class="footer">
+      <p>© <span id="year"></span> Royal Stone Countertops & Blinds. Winnipeg, Manitoba. All rights reserved.</p>
+    </div>
+  </div>
+
+  <!-- BLINDS SECTION -->
+  <section id="blinds" class="section" style="background:#fafafa;">
+    <div class="container">
+      <h2>Custom Window Blinds & Shades</h2>
+      <p class="muted">Free in-home measurement, fast turnaround, and professional installation. Choose from a wide range of fabrics and controls.</p>
+
+      <div class="grid grid-3" style="margin-top:14px;">
+        <article class="product-tile">
+          <img src="images/blinds1.jpg" width="768" height="768" alt="Zebra / Dual blinds" loading="lazy">
+          <div class="body">
+            <h3>Zebra / Dual</h3>
+            <p>Alternate sheer & solid bands for day–night control without sacrificing style.</p>
+          </div>
+        </article>
+        <article class="product-tile">
+          <img src="images/blinds2.jpg" width="768" height="768" alt="Roller & Blackout blinds" loading="lazy">
+          <div class="body">
+            <h3>Roller & Blackout</h3>
+            <p>Sleek rollers for living spaces; blackout fabrics for bedrooms & media rooms.</p>
+          </div>
+        </article>
+        <article class="product-tile">
+          <img src="images/blinds3.jpg" width="768" height="768" alt="Faux Wood & Cellular blinds" loading="lazy">
+          <div class="body">
+            <h3>Faux Wood & Cellular</h3>
+            <p>Classic wood look or energy-efficient honeycomb cells that insulate your home.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid grid-3" style="margin-top:16px;">
+        <div class="card"><span class="pill">Why us</span><h3>Measure · Fabricate · Install</h3><p>One team from quote to finish—clean, insured installs and neat caulking.</p></div>
+        <div class="card"><span class="pill">Smart</span><h3>Manual or Motorized</h3><p>Remote control, wall switch, or smart-home integration (ask for options).</p></div>
+        <div class="card"><span class="pill">Warranty</span><h3>Peace of Mind</h3><p>Hardware & workmanship warranty. Samples brought to your home.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTERTOPS SECTION -->
+  <section id="countertops" class="section">
+    <div class="container">
+      <h2>Stone Countertops</h2>
+      <p class="muted">Quartz · Granite · Marble — precise templating, CNC fabrication, and spotless installation.</p>
+      <div class="grid grid-3" style="margin-top:14px;">
+        <article class="product-tile">
+          <img src="images/countertop1.jpg" width="768" height="768" alt="Kitchen countertop" loading="lazy">
+          <div class="body">
+            <h3>Kitchen</h3>
+            <p>Seams aligned with grain, polished edges, sink & cooktop cutouts included.</p>
+          </div>
+        </article>
+        <article class="product-tile">
+          <img src="images/countertop2.jpg" width="768" height="768" alt="Washroom countertop" loading="lazy">
+          <div class="body">
+            <h3>Washroom</h3>
+            <p>Vanities, splashes, and niche shelves with a waterproof finish.</p>
+          </div>
+        </article>
+        <article class="product-tile">
+          <img src="images/countertop3.jpg" width="768" height="768" alt="Fireplace & TV wall stone cladding" loading="lazy">
+          <div class="body">
+            <h3>Fireplace & TV Wall</h3>
+            <p>Large-format cladding and surrounds that transform living spaces.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote Modal -->
+  <div class="modal" id="quoteModal" role="dialog" aria-modal="true" aria-labelledby="quoteTitle">
+    <div class="modal-content">
+      <span class="close-modal" id="closeModal" aria-label="Close">&times;</span>
+      <h2 id="quoteTitle">Get a Free Quote</h2>
+      <form id="quoteForm">
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Interested In *</label>
+          <div class="checkboxes">
+            <label><input type="checkbox" name="service" value="Countertops"> Countertops</label>
+            <label><input type="checkbox" name="service" value="Blinds"> Blinds</label>
+            <label><input type="checkbox" name="service" value="Both"> Both</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="project">Project Type (optional)</label>
+          <select id="project" name="project">
+            <option value="">Select…</option>
+            <option value="kitchen">Kitchen Countertop</option>
+            <option value="island">Kitchen Island</option>
+            <option value="bathroom">Bathroom Vanity</option>
+            <option value="zebra">Zebra / Dual Blinds</option>
+            <option value="roller">Roller / Blackout Blinds</option>
+            <option value="cellular">Cellular / Honeycomb Blinds</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Notes (sizes, rooms, timeline)</label>
+          <input type="text" id="notes" name="notes" placeholder="E.g., 3 bedroom windows; 10ft island; install by next month">
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
+        <div class="loading" id="loading">
+          <div class="loading-spinner"></div>
+          <p>Sending your request...</p>
+        </div>
+        <div class="error-message" id="errorMessage"></div>
+      </form>
+      <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 15px;"></i>
+        <p>Thank you! Your request has been sent successfully.</p>
+        <p>We'll contact you shortly at <strong id="confirmPhone"></strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© <span id="year"></span> Royal Stone Countertops & Blinds. Winnipeg, Manitoba. All rights reserved.</p>
+  </div>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('nav-links');
+    mobileMenu.addEventListener('click', () => {
+      const expanded = mobileMenu.getAttribute('aria-expanded') === 'true';
+      mobileMenu.setAttribute('aria-expanded', String(!expanded));
+      mobileMenu.classList.toggle('is-active');
+      navLinks.classList.toggle('active');
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('is-active');
+        mobileMenu.setAttribute('aria-expanded','false');
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // WebGL background
+    const canvas = document.getElementById('webgl-canvas');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+    function resizeCanvas() { canvas.width = innerWidth; canvas.height = innerHeight; if (gl) gl.viewport(0,0,canvas.width,canvas.height); }
+    addEventListener('resize', resizeCanvas); resizeCanvas();
+    if (!gl) { console.warn('WebGL not supported by your browser.'); }
+
+    const vertexShaderSource = `#version 300 es
+      in vec4 aPosition; void main(){ gl_Position = aPosition; }`;
+    const fragmentShaderSource = `#version 300 es
+      precision highp float; uniform float uTime; uniform vec2 uResolution; out vec4 fragColor;
+      float hash(float n){ return fract(sin(n)*1e4); }
+      float hash(vec2 p){ return fract(1e4 * sin(17.0*p.x + p.y*0.1) * (0.1 + abs(sin(p.y*13.0 + p.x)))); }
+      float noise(vec2 x){ vec2 i=floor(x); vec2 f=fract(x);
+        float a=hash(i); float b=hash(i+vec2(1.0,0.0)); float c=hash(i+vec2(0.0,1.0)); float d=hash(i+vec2(1.0,1.0));
+        vec2 u=f*f*(3.0-2.0*f); return mix(a,b,u.x) + (c-a)*u.y*(1.0-u.x) + (d-b)*u.x*u.y; }
+      float fbm(vec2 p){ float f=0.0; f+=0.5*noise(p); p*=2.02; f+=0.25*noise(p); p*=2.03; f+=0.125*noise(p); p*=2.01; f+=0.0625*noise(p); return f/0.9375; }
+      float marble(vec2 p){ float n=fbm(p*2.5); return sin(p.x*1.5 + n*3.0 + uTime*0.15); }
+      float granite(vec2 p){ float n=fbm(p*4.0); return sin(p.x*3.0 + p.y*2.0 + n*2.0 + uTime*0.1); }
+      vec3 palette(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b * cos(6.28318 * (c*t + d)); }
+      void main(){
+        vec2 uv=gl_FragCoord.xy/uResolution.xy; uv.x *= uResolution.x/uResolution.y;
+        vec2 q=vec2(0.0); q.x = marble(uv + 0.1*uTime); q.y = granite(uv + vec2(1.0));
+        float mp=marble(uv*1.8 + q + 0.15*uTime); float gp=granite(uv*2.2 + q*0.5 + 0.1*uTime);
+        float pattern=mix(mp,gp,0.5 + 0.2*sin(uTime*0.2));
+        vec3 color=palette(pattern*0.5+0.5, vec3(0.85,0.82,0.78), vec3(0.3,0.25,0.2), vec3(1.0,0.95,0.9), vec3(0.35,0.3,0.25));
+        float veins=smoothstep(-0.1,0.3, sin(pattern*25.0 + uTime*0.1)); color *= 1.0 - veins*0.25;
+        float crystals=smoothstep(0.7,1.0, pattern); color += vec3(0.9,0.85,0.8) * crystals * 0.4;
+        float depth=sin(uv.y*3.0 + uTime*0.05)*0.1 + 0.15; color += vec3(depth*0.8, depth*0.7, depth*0.6);
+        vec2 vig=uv*(1.0-uv.yx); float vignette=vig.x*vig.y*15.0; vignette = pow(vignette, 0.25); color *= vignette*0.7 + 0.3;
+        float shimmer = fbm(uv*10.0 + uTime*0.2)*0.05; color += vec3(shimmer*0.8, shimmer*0.7, shimmer*0.6);
+        fragColor = vec4(color, 1.0);
+      }`;
+
+    function compileShader(source, type){ const s = gl.createShader(type); gl.shaderSource(s, source); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.error('Shader error:', gl.getShaderInfoLog(s)); gl.deleteShader(s); return null; } return s; }
+    function createProgram(vs, fs){ const p = gl.createProgram(); gl.attachShader(p, vs); gl.attachShader(p, fs); gl.linkProgram(p); if (!gl.getProgramParameter(p, gl.LINK_STATUS)) { console.error('Link error:', gl.getProgramInfoLog(p)); gl.deleteProgram(p); return null; } return p; }
+
+    if (gl) {
+      const vs = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
+      const fs = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
+      const program = createProgram(vs, fs);
+      const vertices = new Float32Array([-1,-1,0, 1,-1,0, -1,1,0, 1,1,0]);
+      const indices = new Uint16Array([0,1,2, 1,3,2]);
+      const vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+      const ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+      const posLoc = gl.getAttribLocation(program, 'aPosition');
+      const timeLoc = gl.getUniformLocation(program, 'uTime');
+      const resLoc = gl.getUniformLocation(program, 'uResolution');
+      gl.useProgram(program);
+
+      (function render(){
+        const t = (Date.now())/1000;
+        gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.uniform1f(timeLoc, t);
+        gl.uniform2f(resLoc, canvas.width, canvas.height);
+        gl.bindBuffer(gl.ARRAY_BUFFER, vb);
+        gl.enableVertexAttribArray(posLoc);
+        gl.vertexAttribPointer(posLoc, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib);
+        gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+        requestAnimationFrame(render);
+      })();
+    }
+
+    // Quote modal
+    const quoteBtn = document.getElementById('quoteBtn');
+    const quoteModal = document.getElementById('quoteModal');
+    const closeModal = document.getElementById('closeModal');
+    const quoteForm = document.getElementById('quoteForm');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage   = document.getElementById('errorMessage');
+    const loading        = document.getElementById('loading');
+    const submitBtn      = document.getElementById('submitBtn');
+    const confirmPhone   = document.getElementById('confirmPhone');
+
+    quoteBtn.addEventListener('click', () => { quoteModal.classList.add('active'); document.body.style.overflow = 'hidden'; setTimeout(()=>document.getElementById('name')?.focus(),50); });
+    closeModal.addEventListener('click', () => { quoteModal.classList.remove('active'); document.body.style.overflow = ''; });
+    addEventListener('keydown', (e)=>{ if(e.key==='Escape' && quoteModal.classList.contains('active')) closeModal.click(); });
+    addEventListener('click', (e)=>{ if(e.target===quoteModal) closeModal.click(); });
+
+    quoteForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true; submitBtn.textContent = 'Sending...';
+      loading.style.display = 'block'; errorMessage.style.display = 'none';
+      const formData = new FormData(quoteForm);
+      fetch('https://script.google.com/macros/s/AKfycbwLwZgTjYFf-sD60CiWbzzfv1BwhpGb1kq3sasw0YimkCuS5E-hMcLIcdMKR1FspvXWnA/exec', { method: 'POST', body: formData })
+        .then(r => r.json())
+        .then(data => {
+          if (data.result === 'success') {
+            quoteForm.style.display = 'none';
+            successMessage.style.display = 'block';
+            confirmPhone.textContent = formData.get('phone');
+            setTimeout(() => {
+              quoteForm.reset();
+              quoteModal.classList.remove('active');
+              quoteForm.style.display = 'block';
+              successMessage.style.display = 'none';
+              submitBtn.disabled = false; submitBtn.textContent = 'Submit Request';
+              loading.style.display = 'none'; document.body.style.overflow = '';
+            }, 5000);
+          } else { throw new Error('Submission failed'); }
+        })
+        .catch(err => {
+          console.error(err);
+          errorMessage.textContent = 'There was an error submitting your request. Please try again.';
+          errorMessage.style.display = 'block';
+          submitBtn.disabled = false; submitBtn.textContent = 'Submit Request';
+          loading.style.display = 'none';
+          setTimeout(()=>{ errorMessage.style.display = 'none'; }, 5000);
         });
-        
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('is-active');
-                navLinks.classList.remove('active');
-            });
-        });
-        
-        // WebGL setup
-        const canvas = document.getElementById('webgl-canvas');
-        const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-        
-        if (!gl) {
-            alert('WebGL not supported by your browser!');
-        }
-        
-        // Set canvas size to match window
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            gl.viewport(0, 0, canvas.width, canvas.height);
-        }
-        
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        
-        // Vertex shader for fullscreen quad
-        const vertexShaderSource = `#version 300 es
-            in vec4 aPosition;
-            void main() {
-                gl_Position = aPosition;
-            }
-        `;
-        
-        // Fragment shader for enhanced stone effect
-        const fragmentShaderSource = `#version 300 es
-            precision highp float;
-            
-            uniform float uTime;
-            uniform vec2 uResolution;
-            out vec4 fragColor;
-            
-            // Hash functions for noise
-            float hash(float n) { return fract(sin(n) * 1e4); }
-            float hash(vec2 p) { return fract(1e4 * sin(17.0 * p.x + p.y * 0.1) * (0.1 + abs(sin(p.y * 13.0 + p.x)))); }
-            
-            // 2D noise function
-            float noise(vec2 x) {
-                vec2 i = floor(x);
-                vec2 f = fract(x);
-                float a = hash(i);
-                float b = hash(i + vec2(1.0, 0.0));
-                float c = hash(i + vec2(0.0, 1.0));
-                float d = hash(i + vec2(1.0, 1.0));
-                vec2 u = f * f * (3.0 - 2.0 * f);
-                return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-            }
-            
-            // Fractional Brownian Motion
-            float fbm(vec2 p) {
-                float f = 0.0;
-                f += 0.5000 * noise(p); p *= 2.02;
-                f += 0.2500 * noise(p); p *= 2.03;
-                f += 0.1250 * noise(p); p *= 2.01;
-                f += 0.0625 * noise(p);
-                return f / 0.9375;
-            }
-            
-            // Marble pattern function
-            float marble(vec2 p) {
-                float n = fbm(p * 2.5);
-                return sin(p.x * 1.5 + n * 3.0 + uTime * 0.15);
-            }
-            
-            // Granite pattern function
-            float granite(vec2 p) {
-                float n = fbm(p * 4.0);
-                return sin(p.x * 3.0 + p.y * 2.0 + n * 2.0 + uTime * 0.1);
-            }
-            
-            // Color palette for stone
-            vec3 palette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
-                return a + b * cos(6.28318 * (c * t + d));
-            }
-            
-            void main() {
-                vec2 uv = gl_FragCoord.xy / uResolution.xy;
-                uv.x *= uResolution.x / uResolution.y;
-                
-                // Create flowing stone effect
-                vec2 q = vec2(0.0);
-                q.x = marble(uv + 0.1 * uTime);
-                q.y = granite(uv + vec2(1.0));
-                
-                // Combine marble and granite patterns
-                float marblePattern = marble(uv * 1.8 + q + 0.15 * uTime);
-                float granitePattern = granite(uv * 2.2 + q * 0.5 + 0.1 * uTime);
-                
-                // Blend patterns
-                float pattern = mix(marblePattern, granitePattern, 0.5 + 0.2 * sin(uTime * 0.2));
-                
-                // Color mapping for royal stone
-                vec3 color = palette(pattern * 0.5 + 0.5,
-                    vec3(0.85, 0.82, 0.78),  // Base color
-                    vec3(0.3, 0.25, 0.2),    // Variation
-                    vec3(1.0, 0.95, 0.9),    // Highlight
-                    vec3(0.35, 0.3, 0.25)    // Contrast
-                );
-                
-                // Add subtle veining
-                float veins = smoothstep(-0.1, 0.3, sin(pattern * 25.0 + uTime * 0.1));
-                color *= 1.0 - veins * 0.25;
-                
-                // Add crystal highlights
-                float crystals = smoothstep(0.7, 1.0, pattern);
-                color += vec3(0.9, 0.85, 0.8) * crystals * 0.4;
-                
-                // Add depth and lighting
-                float depth = sin(uv.y * 3.0 + uTime * 0.05) * 0.1 + 0.15;
-                color += vec3(depth * 0.8, depth * 0.7, depth * 0.6);
-                
-                // Vignette effect
-                vec2 vig = uv * (1.0 - uv.yx);
-                float vignette = vig.x * vig.y * 15.0;
-                vignette = pow(vignette, 0.25);
-                color *= vignette * 0.7 + 0.3;
-                
-                // Add subtle shimmer
-                float shimmer = fbm(uv * 10.0 + uTime * 0.2) * 0.05;
-                color += vec3(shimmer * 0.8, shimmer * 0.7, shimmer * 0.6);
-                
-                fragColor = vec4(color, 1.0);
-            }
-        `;
-        
-        // Compile shader
-        function compileShader(source, type) {
-            const shader = gl.createShader(type);
-            gl.shaderSource(shader, source);
-            gl.compileShader(shader);
-            
-            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
-                gl.deleteShader(shader);
-                return null;
-            }
-            
-            return shader;
-        }
-        
-        // Create shader program
-        function createProgram(vertexShader, fragmentShader) {
-            const program = gl.createProgram();
-            gl.attachShader(program, vertexShader);
-            gl.attachShader(program, fragmentShader);
-            gl.linkProgram(program);
-            
-            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-                console.error('Program linking error:', gl.getProgramInfoLog(program));
-                gl.deleteProgram(program);
-                return null;
-            }
-            
-            return program;
-        }
-        
-        // Create a simple quad for fullscreen rendering
-        function createQuad() {
-            const vertices = new Float32Array([
-                -1, -1, 0,
-                 1, -1, 0,
-                -1,  1, 0,
-                 1,  1, 0
-            ]);
-            
-            const indices = new Uint16Array([0, 1, 2, 1, 3, 2]);
-            
-            const vertexBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-            
-            const indexBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
-            
-            return {
-                vertexBuffer,
-                indexBuffer,
-                vertexCount: indices.length
-            };
-        }
-        
-        // Initialize shaders and buffers
-        const vertexShader = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
-        const fragmentShader = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
-        const program = createProgram(vertexShader, fragmentShader);
-        
-        const quad = createQuad();
-        
-        // Get attribute and uniform locations
-        const positionAttributeLocation = gl.getAttribLocation(program, 'aPosition');
-        const timeUniformLocation = gl.getUniformLocation(program, 'uTime');
-        const resolutionUniformLocation = gl.getUniformLocation(program, 'uResolution');
-        
-        // Set up rendering
-        gl.useProgram(program);
-        
-        // Render loop
-        let startTime = Date.now();
-        
-        function render() {
-            const currentTime = (Date.now() - startTime) / 1000;
-            
-            // Clear the canvas
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-            
-            // Set uniforms
-            gl.uniform1f(timeUniformLocation, currentTime);
-            gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
-            
-            // Bind buffers
-            gl.bindBuffer(gl.ARRAY_BUFFER, quad.vertexBuffer);
-            gl.enableVertexAttribArray(positionAttributeLocation);
-            gl.vertexAttribPointer(positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
-            
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, quad.indexBuffer);
-            
-            // Draw the quad
-            gl.drawElements(gl.TRIANGLES, quad.vertexCount, gl.UNSIGNED_SHORT, 0);
-            
-            // Request next frame
-            requestAnimationFrame(render);
-        }
-        
-        // Start rendering
-        render();
-        
-        // Modal functionality
-        const quoteBtn = document.getElementById('quoteBtn');
-        const quoteModal = document.getElementById('quoteModal');
-        const closeModal = document.getElementById('closeModal');
-        const quoteForm = document.getElementById('quoteForm');
-        const successMessage = document.getElementById('successMessage');
-        const errorMessage = document.getElementById('errorMessage');
-        const loading = document.getElementById('loading');
-        const submitBtn = document.getElementById('submitBtn');
-        const confirmPhone = document.getElementById('confirmPhone');
-        
-        quoteBtn.addEventListener('click', () => {
-            quoteModal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        });
-        
-        closeModal.addEventListener('click', () => {
-            quoteModal.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
-        });
-        
-        window.addEventListener('click', (e) => {
-            if (e.target === quoteModal) {
-                quoteModal.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scrolling
-            }
-        });
-        
-        // Form submission with Google Apps Script integration
-        quoteForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Show loading state
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            loading.style.display = 'block';
-            errorMessage.style.display = 'none';
-            
-            // Get form data
-            const formData = new FormData(quoteForm);
-            
-            // Send to Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbwLwZgTjYFf-sD60CiWbzzfv1BwhpGb1kq3sasw0YimkCuS5E-hMcLIcdMKR1FspvXWnA/exec', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    // Show success message
-                    document.getElementById('quoteForm').style.display = 'none';
-                    successMessage.style.display = 'block';
-                    confirmPhone.textContent = formData.get('phone');
-                    
-                    // Reset form after delay
-                    setTimeout(() => {
-                        quoteForm.reset();
-                        quoteModal.classList.remove('active');
-                        document.getElementById('quoteForm').style.display = 'block';
-                        successMessage.style.display = 'none';
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Submit Request';
-                        loading.style.display = 'none';
-                        document.body.style.overflow = ''; // Restore scrolling
-                    }, 5000);
-                } else {
-                    throw new Error('Submission failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Show error message
-                errorMessage.textContent = 'There was an error submitting your request. Please try again.';
-                errorMessage.style.display = 'block';
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Request';
-                loading.style.display = 'none';
-                
-                // Hide error after delay
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                }, 5000);
-            });
-        });
-    </script>
+    });
+  </script>
 </body>
 </html>
