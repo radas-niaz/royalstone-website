@@ -169,10 +169,7 @@
         </div>
       </div>
     </section>
-<!--DANGER ZONE!!!-->
 
-
-    <!-- Widget Calc button -->
 
     <section class="cta-section">
   <h2>Ready to Transform Your Space?</h2>
@@ -182,114 +179,6 @@
   </p>
   <a href="index.html#quote" class="cta-button">Get a Free Quote</a>
 
-  <!-- Rebate Calculator Button -->
-  <button id="open-widget-btn" class="cta-button" style="margin-left:10px;">
-    Rebate Calculator
-  </button>
-</section>
-
-<!-- Overlay -->
-<div id="widget-overlay">
-  <div class="widget-container">
-    <button id="close-widget-btn" aria-label="Close">&times;</button>
-    <iframe src="https://rebate-checker-widget.netlify.app/" allowfullscreen></iframe>
-  </div>
-</div>
-
-<style>
-  /* Overlay background */
-  #widget-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* Widget container (desktop default) */
-  .widget-container {
-    background: white;
-    width: 95%;
-    max-width: 500px;
-    height: 85%;
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    animation: fadeIn 0.3s ease;
-  }
-
-  /* Close button */
-  /* Close button - modern style */
-#close-widget-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 28px;
-  line-height: 1;
-  color: #333;
-  transition: color 0.2s ease;
-}
-
-#close-widget-btn:hover {
-  color: #007bff; /* highlight on hover */
-}
-
-
-  /* iFrame fills container */
-  .widget-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-
-  /* 📱 Mobile: full-screen drawer */
-  @media (max-width: 768px) {
-    #widget-overlay {
-      align-items: flex-end; /* push container to bottom */
-    }
-    .widget-container {
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      border-radius: 0;
-      animation: slideUp 0.3s ease;
-    }
-  }
-
-  /* Animations */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
-  @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-  }
-</style>
-
-<script>
-  const overlay = document.getElementById("widget-overlay");
-  const openBtn = document.getElementById("open-widget-btn");
-  const closeBtn = document.getElementById("close-widget-btn");
-
-  openBtn.addEventListener("click", () => {
-    overlay.style.display = "flex";
-  });
-
-  closeBtn.addEventListener("click", () => {
-    overlay.style.display = "none";
-  });
-</script>
-
-
-<!-- DANGER ZONE-->
 
   <!-- Sticky mobile bar (links to index quote) -->
   <div class="mobile-cta" aria-label="Quick actions">
@@ -389,5 +278,7 @@
       })();
     }
   </script>
+  <script src="widget.js"></script>
+
 </body>
 </html>
