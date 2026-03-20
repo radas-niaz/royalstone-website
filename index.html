@@ -71,6 +71,28 @@
     .product-tile:hover img { transform: scale(1.05); }
     .product-tile .body { padding:14px; }
 
+    /* Booking CTA block */
+    .booking-cta-block {
+      text-align:center;
+      margin: 40px auto 0;
+      max-width: 900px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 18px;
+      padding: 32px 20px;
+      backdrop-filter: blur(8px);
+    }
+    .booking-cta-block h2 {
+      color: white;
+      margin-bottom: 10px;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+    }
+    .booking-cta-block p {
+      color: rgba(255,255,255,0.88);
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+    }
+
     /* Footer */
     .footer { text-align: center; color: rgba(255, 255, 255, 0.8); font-size: 0.95rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); letter-spacing: 0.5px; padding: 30px 20px; margin-top: 20px; }
 
@@ -93,44 +115,43 @@
     .loading-spinner { border: 4px solid rgba(0, 0, 0, 0.08); border-radius: 50%; border-top: 4px solid #2c3e50; width: 28px; height: 28px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* === Mobile polish overrides === */
-    /* === Mobile polish overrides === */
-@media (max-width: 640px) {
-  :root { --nav-h: 64px; }
-  .logo-img { max-height: 44px; width: auto; }
-  .menu-toggle { display: flex; }       /* <-- add this line */
-  .hero { padding-top: calc(var(--nav-h) + 20px + env(safe-area-inset-top, 0)); }
-  .hero-content { padding: 22px 16px; border-radius: 16px; }
-  .eyebrow { font-size: .78rem; }
-  .hero h1 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
-  .hero p  { font-size: 1rem; }
+    /* Mobile polish overrides */
+    @media (max-width: 640px) {
+      :root { --nav-h: 64px; }
+      .logo-img { max-height: 44px; width: auto; }
+      .menu-toggle { display: flex; }
+      .hero { padding-top: calc(var(--nav-h) + 20px + env(safe-area-inset-top, 0)); }
+      .hero-content { padding: 22px 16px; border-radius: 16px; }
+      .eyebrow { font-size: .78rem; }
+      .hero h1 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+      .hero p  { font-size: 1rem; }
 
-  .nav-links {
-    position: fixed;
-    left: -100%;
-    top: var(--nav-h);
-    height: calc(100vh - var(--nav-h));
-    overflow-y: auto;
-    flex-direction: column;
-    background: rgba(255,255,255,.96);
-    width: 100%;
-    text-align: center;
-    transition: left .3s ease;
-    box-shadow: 0 10px 27px rgba(0,0,0,.05);
-    padding: 18px 0 24px;
-    backdrop-filter: blur(10px);
-    gap: 10px;
-  }
-  .nav-links.active { left: 0; }
+      .nav-links {
+        position: fixed;
+        left: -100%;
+        top: var(--nav-h);
+        height: calc(100vh - var(--nav-h));
+        overflow-y: auto;
+        flex-direction: column;
+        background: rgba(255,255,255,.96);
+        width: 100%;
+        text-align: center;
+        transition: left .3s ease;
+        box-shadow: 0 10px 27px rgba(0,0,0,.05);
+        padding: 18px 0 24px;
+        backdrop-filter: blur(10px);
+        gap: 10px;
+      }
+      .nav-links.active { left: 0; }
 
-  .features { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .grid-3   { grid-template-columns: 1fr; }
+      .features { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .grid-3   { grid-template-columns: 1fr; }
 
-  .product-tile { border-radius: 12px; }
-  .product-tile img { aspect-ratio: 1 / 1; }
+      .product-tile { border-radius: 12px; }
+      .product-tile img { aspect-ratio: 1 / 1; }
 
-  .cta-buttons { flex-direction: column; gap: 10px; }
-}
+      .cta-buttons { flex-direction: column; gap: 10px; }
+    }
 
     @media (max-width: 400px) { .features { grid-template-columns: 1fr; } }
 
@@ -158,7 +179,7 @@
       background:#fff; color:#1f2937;
     }
     .mobile-cta a { text-decoration: none; }
-    .mobile-cta button { background: linear-gradient(135deg, #2c3e50, #1a2530); color:#fff; border:none; }
+    .mobile-cta button { background: linear-gradient(135deg, #2c3e50, #1a2530); color:#fff; border:none; cursor:pointer; }
     @media (max-width: 640px) { .mobile-cta { display: flex; } }
     body.menu-open .mobile-cta, body.modal-open .mobile-cta { display: none; }
   </style>
@@ -173,11 +194,11 @@
         <span></span><span></span><span></span>
       </div>
       <ul class="nav-links" id="nav-links">
-  <li><a href="products.html">Products</a></li>
-  <li><a href="#blinds">Blinds</a></li>
-  <li><a href="#countertops">Countertops</a></li>
-  <li><a href="about.html">About</a></li>
-</ul>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="#blinds">Blinds</a></li>
+        <li><a href="#countertops">Countertops</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
     </div>
   </nav>
 
@@ -197,10 +218,20 @@
       </div>
 
       <div class="cta-buttons">
-        <button class="cta-button" id="quoteBtn" aria-haspopup="dialog" aria-controls="quoteModal">Get a Free Quote</button>
-        <a href="tel:+15145615982" class="cta-button secondary-button"><i class="fas fa-phone"></i> Call: (514) 561-5982</a>
+        <a target="_top" class="cta-button" href="https://app.squareup.com/appointments/book/5tmp68k9f4c5b5/L5S97DDGMBRAZ/start" rel="nofollow">
+          Book Free Consultation
+        </a>
+
+        <button class="cta-button secondary-button" id="quoteBtn" aria-haspopup="dialog" aria-controls="quoteModal">
+          Get a Free Quote
+        </button>
+
+        <a href="tel:+15145615982" class="cta-button secondary-button">
+          <i class="fas fa-phone"></i> Call: (514) 561-5982
+        </a>
       </div>
     </div>
+
     <div class="footer">
       <p>© <span id="year"></span> Royal Stone Countertops & Blinds. Winnipeg, Manitoba. All rights reserved.</p>
     </div>
@@ -275,6 +306,19 @@
     </div>
   </section>
 
+  <!-- Bottom Booking CTA -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="booking-cta-block">
+        <h2>Ready to get started?</h2>
+        <p>Book your free in-home consultation and let us help you choose the perfect countertop or blinds for your space.</p>
+        <a target="_top" class="cta-button" href="https://app.squareup.com/appointments/book/5tmp68k9f4c5b5/L5S97DDGMBRAZ/start" rel="nofollow">
+          Book Your Free In-Home Consultation
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Quote Modal -->
   <div class="modal" id="quoteModal" role="dialog" aria-modal="true" aria-labelledby="quoteTitle">
     <div class="modal-content">
@@ -339,7 +383,9 @@
   <!-- Sticky mobile bar -->
   <div class="mobile-cta" aria-label="Quick actions">
     <a href="tel:+15145615982"><i class="fas fa-phone"></i> Call</a>
-    <button type="button" id="quoteBtnMobile"><i class="fas fa-comment-dots"></i> Quote</button>
+    <a href="https://app.squareup.com/appointments/book/5tmp68k9f4c5b5/L5S97DDGMBRAZ/start" target="_top" rel="nofollow">
+      <i class="fas fa-calendar-check"></i> Book
+    </a>
   </div>
 
   <div class="footer">
@@ -371,11 +417,6 @@
         mobileMenu.setAttribute('aria-expanded','false');
         document.body.classList.remove('menu-open');
       }
-    });
-
-    // Open quote modal from sticky bar
-    document.getElementById('quoteBtnMobile')?.addEventListener('click', () => {
-      document.getElementById('quoteBtn')?.click();
     });
 
     // When modal opens/closes, toggle a body class to hide the sticky bar
@@ -423,46 +464,70 @@
     // Submit (Google Apps Script endpoint)
     quoteForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      submitBtn.disabled = true; submitBtn.textContent = 'Sending...';
-      loading.style.display = 'block'; errorMessage.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      loading.style.display = 'block';
+      errorMessage.style.display = 'none';
+
       const formData = new FormData(quoteForm);
-      fetch('https://script.google.com/macros/s/AKfycbwLwZgTjYFf-sD60CiWbzzfv1BwhpGb1kq3sasw0YimkCuS5E-hMcLIcdMKR1FspvXWnA/exec', { method: 'POST', body: formData })
+
+      fetch('https://script.google.com/macros/s/AKfycbwLwZgTjYFf-sD60CiWbzzfv1BwhpGb1kq3sasw0YimkCuS5E-hMcLIcdMKR1FspvXWnA/exec', {
+        method: 'POST',
+        body: formData
+      })
         .then(r => r.json())
         .then(data => {
           if (data.result === 'success') {
             quoteForm.style.display = 'none';
             successMessage.style.display = 'block';
             confirmPhone.textContent = formData.get('phone');
+
             setTimeout(() => {
               quoteForm.reset();
               quoteModal.classList.remove('active');
               document.body.classList.remove('modal-open');
               quoteForm.style.display = 'block';
               successMessage.style.display = 'none';
-              submitBtn.disabled = false; submitBtn.textContent = 'Submit Request';
-              loading.style.display = 'none'; document.body.style.overflow = '';
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Submit Request';
+              loading.style.display = 'none';
+              document.body.style.overflow = '';
             }, 5000);
-          } else { throw new Error('Submission failed'); }
+          } else {
+            throw new Error('Submission failed');
+          }
         })
         .catch(err => {
           console.error(err);
           errorMessage.textContent = 'There was an error submitting your request. Please try again.';
           errorMessage.style.display = 'block';
-          submitBtn.disabled = false; submitBtn.textContent = 'Submit Request';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Request';
           loading.style.display = 'none';
-          setTimeout(()=>{ errorMessage.style.display = 'none'; }, 5000);
+          setTimeout(() => { errorMessage.style.display = 'none'; }, 5000);
         });
     });
 
     // WebGL background
     const canvas = document.getElementById('webgl-canvas');
     const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-    function resizeCanvas() { canvas.width = innerWidth; canvas.height = innerHeight; if (gl) gl.viewport(0,0,canvas.width,canvas.height); }
-    addEventListener('resize', resizeCanvas); resizeCanvas();
-    if (!gl) { console.warn('WebGL not supported by your browser.'); }
+
+    function resizeCanvas() {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+      if (gl) gl.viewport(0,0,canvas.width,canvas.height);
+    }
+
+    addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    if (!gl) {
+      console.warn('WebGL not supported by your browser.');
+    }
 
     const vertexShaderSource = `#version 300 es
       in vec4 aPosition; void main(){ gl_Position = aPosition; }`;
+
     const fragmentShaderSource = `#version 300 es
       precision highp float; uniform float uTime; uniform vec2 uResolution; out vec4 fragColor;
       float hash(float n){ return fract(sin(n)*1e4); }
@@ -488,25 +553,57 @@
         fragColor = vec4(color, 1.0);
       }`;
 
-    function compileShader(source, type){ const s = gl.createShader(type); gl.shaderSource(s, source); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.error('Shader error:', gl.getShaderInfoLog(s)); gl.deleteShader(s); return null; } return s; }
-    function createProgram(vs, fs){ const p = gl.createProgram(); gl.attachShader(p, vs); gl.attachShader(p, fs); gl.linkProgram(p); if (!gl.getProgramParameter(p, gl.LINK_STATUS)) { console.error('Link error:', gl.getProgramInfoLog(p)); gl.deleteProgram(p); return null; } return p; }
+    function compileShader(source, type){
+      const s = gl.createShader(type);
+      gl.shaderSource(s, source);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error('Shader error:', gl.getShaderInfoLog(s));
+        gl.deleteShader(s);
+        return null;
+      }
+      return s;
+    }
+
+    function createProgram(vs, fs){
+      const p = gl.createProgram();
+      gl.attachShader(p, vs);
+      gl.attachShader(p, fs);
+      gl.linkProgram(p);
+      if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+        console.error('Link error:', gl.getProgramInfoLog(p));
+        gl.deleteProgram(p);
+        return null;
+      }
+      return p;
+    }
 
     if (gl) {
       const vs = compileShader(vertexShaderSource, gl.VERTEX_SHADER);
       const fs = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER);
       const program = createProgram(vs, fs);
+
       const vertices = new Float32Array([-1,-1,0, 1,-1,0, -1,1,0, 1,1,0]);
       const indices = new Uint16Array([0,1,2, 1,3,2]);
-      const vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-      const ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
+      const vb = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, vb);
+      gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+      const ib = gl.createBuffer();
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
       const posLoc = gl.getAttribLocation(program, 'aPosition');
       const timeLoc = gl.getUniformLocation(program, 'uTime');
       const resLoc = gl.getUniformLocation(program, 'uResolution');
+
       gl.useProgram(program);
 
       (function render(){
-        const t = (Date.now())/1000;
-        gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT);
+        const t = (Date.now()) / 1000;
+        gl.clearColor(0,0,0,1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
         gl.uniform1f(timeLoc, t);
         gl.uniform2f(resLoc, canvas.width, canvas.height);
         gl.bindBuffer(gl.ARRAY_BUFFER, vb);
@@ -518,7 +615,7 @@
       })();
     }
   </script>
-  <script src="widget.js"></script>
 
+  <script src="widget.js"></script>
 </body>
 </html>
